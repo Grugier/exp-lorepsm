@@ -1,4 +1,4 @@
-# exp-lorepsm
+# Exp-lorepsm
 Exp-lorePSM est la continuité de Loremmi, un de nos précédents projets universitaires.
 
 Les deux concepts partagent les mêmes objectifs : proposer une visite virtuelle des bâtiments du campus, tout en permettant aux anciens et actuels étudiants de partager leurs souvenirs, à la manière d’un réseau social construisant une mémoire collective autour de ces formations.
