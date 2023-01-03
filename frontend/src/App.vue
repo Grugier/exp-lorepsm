@@ -34,8 +34,6 @@
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
-
-//Si composition (+ setup)
 import { onMounted } from 'vue'
 
 onMounted(() => {
@@ -58,29 +56,6 @@ onMounted(() => {
     unLien.addEventListener("click", doToggle);
   }
 });
-//Si option
-// export default {
-//   mounted() {
-//     let burger = document.querySelector('.nav-toggle');
-//     let lien = document.querySelectorAll('.menu li');
-//     let menu = document.querySelector('.menu');
-//     let page = document.querySelector('body');
-
-//     function doToggle() {
-//       menu.classList.toggle('open');
-//       burger.classList.toggle('active');
-//       page.classList.toggle('noscroll');
-//     }
-
-//     burger.addEventListener("click", doToggle);
-
-//     for (var i = 0; i < lien.length; i++) {
-//       let unLien = lien[i];
-//       unLien.addEventListener("click", doToggle);
-
-//     }
-//   }
-// }
 
 </script>
 
