@@ -1,6 +1,6 @@
 <?php
 
-class Document
+class Document implements JsonSerializable
 {
     private $idDoc = 0;
     private $typeDoc = 0;
@@ -22,4 +22,10 @@ class Document
     public function getLeSouvenir(){return $this->leSouvenir;}
 
     public function setLeSouvenir($leSouvenir){$this->leSouvenir = $leSouvenir;}
+
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }
