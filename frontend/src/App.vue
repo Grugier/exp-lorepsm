@@ -9,7 +9,7 @@
           <RouterLink to="/visite">Visiter depuis le début</RouterLink>
         </li>
         <li>
-          <RouterLink to="/about">Se connecter</RouterLink>
+          <RouterLink to="/connexion">Se connecter</RouterLink>
         </li>
       </ul>
     </nav>

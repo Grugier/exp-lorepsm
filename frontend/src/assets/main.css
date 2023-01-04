@@ -11,13 +11,15 @@ html {
   --darkGreen: #518820;
   --lightGreen: #99BF1C;
 }
+
 * {
   box-sizing: border-box;
 }
 
 /*===Styles typographiques===*/
 a,
-p {
+p,
+button {
   font-family: 'Noto Sans', Arial, sans-serif;
 }
 
@@ -31,6 +33,7 @@ header a {
 a {
   text-decoration: none;
 }
+
 a,
 p,
 h1 {
@@ -46,12 +49,16 @@ h2 {
 }
 
 /*Tailles de typos*/
+h1 {
+  font-size: 5rem;
+}
+
 h2 {
   font-size: 6.2rem;
 }
 
 p {
-  font-size: 2.4rem;
+  font-size: 1.8rem;
 }
 
 a {
@@ -101,6 +108,7 @@ header {
   right: 90px;
   bottom: 16px;
 }
+
 .identite p {
   margin: 0 1.5rem 0 0;
   font-size: 1.8rem;
@@ -250,6 +258,7 @@ header {
 body {
   background-color: #EEEDEC;
 }
+
 /* main {
   margin-top: 9.5rem;
   padding-left: 4rem;
@@ -282,10 +291,10 @@ body {
     display: none;
   }
 
-  /* main {
+  .contenu {
     padding-left: 2rem;
     padding-right: 2rem;
-  } */
+  }
 
   .liensProfil {
     right: 30px;

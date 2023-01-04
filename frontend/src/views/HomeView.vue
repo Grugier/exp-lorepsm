@@ -234,6 +234,10 @@ main {
   margin-bottom: 0;
 }
 
+#presentation p {
+  font-size: 2.4rem;
+}
+
 #presentation>div:nth-child(2),
 #presentation>div:last-of-type {
   margin-top: 7vh;
