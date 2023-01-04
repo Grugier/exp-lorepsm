@@ -213,8 +213,8 @@ main {
 
 /*Partie présentation*/
 #presentation {
-  padding-top: 13vh;
-  padding-bottom: 13vh;
+  padding-top: 10vh;
+  padding-bottom: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -239,7 +239,7 @@ main {
 
 #presentation>div:nth-child(2),
 #presentation>div:last-of-type {
-  margin-top: 7vh;
+  margin-top: 5vh;
 }
 
 /*Footer*/
