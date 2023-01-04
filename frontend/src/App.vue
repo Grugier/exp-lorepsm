@@ -18,7 +18,7 @@
       <div class="nav-toggle-bar"></div>
     </div>
 
-    <p id="explorepsm-logo">Exp-LorePsm</p>
+    <RouterLink to="/" id="explorepsm-logo">Exp-LorePsm</RouterLink>
 
     <RouterLink to="/Connexion" class="liensProfil">
       <div class="identite">

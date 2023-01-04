@@ -1,15 +1,72 @@
 @import './base.css';
 @import './normalize.css';
 
-/*Global*/
+/*===Typo===*/
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+
+/*===Global===*/
 html {
   font-size: 62.5%;
+  --darkGreen: #518820;
+  --lightGreen: #99BF1C;
 }
 * {
   box-sizing: border-box;
 }
 
-/*Header*/
+/*===Styles typographiques===*/
+a,
+p {
+  font-family: 'Noto Sans', Arial, sans-serif;
+}
+
+h1,
+h2,
+footer a,
+header a {
+  font-family: 'Fredoka One', Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+a,
+p,
+h1 {
+  color: #302A2A;
+}
+
+footer p {
+  color: #756464;
+}
+
+h2 {
+  color: #EEEDEC;
+}
+
+/*Tailles de typos*/
+h2 {
+  font-size: 6.2rem;
+}
+
+p {
+  font-size: 2.4rem;
+}
+
+a {
+  font-size: 3.3rem;
+}
+
+footer p {
+  font-size: 1.8rem;
+}
+
+footer a {
+  font-size: 6.5rem;
+}
+
+/*===Header===*/
 header {
   box-sizing: border-box;
   background-color: #EEEDEC;
@@ -29,13 +86,13 @@ header {
 
 /*Remplacement du logo*/
 #explorepsm-logo {
-  background: url(logo.svg) no-repeat;
+  background: url(logo.svg) no-repeat center center;
   background-size: contain;
   text-indent: 100%;
   white-space: nowrap;
   overflow: hidden;
-  width: 11.5rem;
-  height: 2.9rem;
+  width: 16.5rem;
+  height: 5.5rem;
 }
 
 /*Information de connexion a droite*/
@@ -46,6 +103,7 @@ header {
 }
 .identite p {
   margin: 0 1.5rem 0 0;
+  font-size: 1.8rem;
 }
 
 .identite {
@@ -153,7 +211,6 @@ header {
   overflow: hidden;
 }
 
-
 .menu.open li:nth-child(n+1) {
   transition-delay: .4s;
 }
@@ -177,6 +234,7 @@ header {
 .menu a {
   text-decoration: none;
   color: #302A2A;
+  font-size: 5rem;
 }
 
 .menu ul {
@@ -187,13 +245,18 @@ header {
   width: 50%;
   margin-left: 5%;
 }
-/*Content*/
-main {
+
+/*===Content===*/
+body {
+  background-color: #EEEDEC;
+}
+/* main {
   margin-top: 9.5rem;
   padding-left: 4rem;
   padding-right: 4rem;
-}
-/*Responsive smartphone*/
+} */
+
+/*===Responsive smartphone===*/
 @media only screen and (max-width: 480px) {
   .identite p {
     display: none;
@@ -219,10 +282,10 @@ main {
     display: none;
   }
 
-  main {
+  /* main {
     padding-left: 2rem;
     padding-right: 2rem;
-  }
+  } */
 
   .liensProfil {
     right: 30px;
