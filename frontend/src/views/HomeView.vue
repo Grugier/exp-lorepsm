@@ -29,7 +29,6 @@
         <h2>Explication</h2>
         <p>des connaissances et des compétences mobilisées dans les formations</p>
       </div>
-
     </section>
 
     <footer>
