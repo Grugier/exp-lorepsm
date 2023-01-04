@@ -1,17 +1,39 @@
 <template>
-    <a-scene embedded>
-        <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-        <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-        <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-        <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-        <a-sky color="#ECECEC"></a-sky>
+    <a-scene background="color: #ECECEC">
+        <a-assets>
+            <a-asset-item id="cityModel" src="/BatimentC.glb"></a-asset-item>
+        </a-assets>
+        <a-entity gltf-model="#cityModel" static-body></a-entity>
+
+        <!-- Caméra -->
+        <a-entity id="joueur" kinema-body="radius: 0.4;" movement-controls="fly: false" position="0 5 -4.531">
+            <a-entity camera position="0 1.8 0" look-controls></a-entity>
+        </a-entity>
+
     </a-scene>
 </template>
 
 <style>
 a-scene {
     width: 100%;
-    height: 85vh;
+    height: 100vh;
 }
 </style>
-  
+<script setup>
+import { onMounted } from 'vue'
+
+onMounted(() => {
+    console.log(document.querySelector("a-entity").setAttribute("gltf-model", "#cityModel"));
+    // setTimeout(() => {
+    //     document.querySelector("a-entity").setAttribute("gltf-model", "#cityModel");
+    // }, 1000);
+})
+
+//A-frame
+// AFRAME.registerComponent('batstgi', {
+//     init: function () {
+//         const el = this.el
+//     }
+// });
+
+</script>
