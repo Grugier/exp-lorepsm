@@ -86,21 +86,9 @@ button:first-of-type {
 
     /*Ordinateur*/
     /*Animations*/
-    .connexion {
+    /* .connexion {
         animation: entreeSlideHaut 1s;
-    }
-
-    .forme-prog {
-        animation: entreeSlideGauche 1s;
-    }
-
-    .forme-demi-cercle {
-        animation: entreeSlideHautRotation 1s;
-    }
-
-    .carre-vague {
-        animation: entreeSlideDroite 1s;
-    }
+    } */
 }
 
 </style>

@@ -28,6 +28,7 @@ h2,
 footer a,
 header a {
   font-family: 'Fredoka One', Arial, sans-serif;
+  font-weight: normal;
 }
 
 a {
@@ -284,6 +285,9 @@ body {
   .menu.open li {
     padding: 1rem 0 1rem 0;
     font-size: 3rem;
+  }
+  .menu a {
+    font-size: 3.5rem;
   }
 
   #lesSalles,

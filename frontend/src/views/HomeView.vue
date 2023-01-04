@@ -13,7 +13,6 @@
       <div id="accueil-droite">
         <span id="model-stgi">Bâtiment STGI C</span>
       </div>
-      <span class="elements-graphiques-mobile"></span>
     </section>
 
     <section id="presentation">
@@ -295,19 +294,8 @@ footer {
 
   #footer-liens>div,
   #explorepsm,
-  #illustrations-presentation,
   #scroll {
     display: none;
-  }
-
-  .elements-graphiques-mobile {
-    background: url(../assets/landing-page/graphiques-accueil-mobile.svg) no-repeat;
-    background-size: contain;
-    width: 30rem;
-    height: 34rem;
-    position: absolute;
-    top: 25%;
-    left: 14%;
   }
 
   #visite {
@@ -331,8 +319,8 @@ footer {
     width: auto;
   }
 
-  #plan-departement {
-    background: url(../assets/landing-page/plan-mobile.svg) no-repeat;
+  #model-stgi {
+    background: url(../assets/landing-page/stgic.png) no-repeat center;
     background-size: contain;
     text-indent: 100%;
     white-space: nowrap;
@@ -342,10 +330,6 @@ footer {
     position: absolute;
     top: 45px;
     left: 0;
-  }
-
-  #presentation div[data-v-3d2f8098]:after {
-    margin-left: 12rem;
   }
 
   #presentation h2 {
