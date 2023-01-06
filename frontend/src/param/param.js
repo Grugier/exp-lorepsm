@@ -21,10 +21,13 @@ export default {
     // },
 
     // USER
-    URLgetLoggedUser: host + 'api/user/getLoggedUser.php',
+    URL_getLoggedUser: host + 'api/user/getLoggedUser.php',
 
     // CONNEXION LINKEDIN
-    URLloginFromFrontend: host + 'api/linkedin/loginFromFrontend.php',
-    URLauthLinkedIn: host + 'api/linkedin/authLinkedIn.php',
+    URL_loginFromFrontend: host + 'api/linkedin/loginFromFrontend.php',
+    URL_authLinkedIn: host + 'api/linkedin/authLinkedIn.php',
+
+    // POST
+    URL_getPostsList: host + 'api/post/getPostsList.php'
 
 }

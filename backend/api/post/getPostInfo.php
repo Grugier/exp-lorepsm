@@ -1,5 +1,7 @@
 <?php
 
+header("Access-Control-Allow-Origin: *");
+
 // Récupérer un souvenir en particulier
 // - infos souvenir
 // - documents

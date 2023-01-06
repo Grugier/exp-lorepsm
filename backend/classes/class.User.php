@@ -87,7 +87,7 @@ class User implements JsonSerializable
 
             // Si on a bien une ligne, on récupère les colonnes qui nous intéressent
             if (isset($user['ID_LINKEDIN'])) {
-                $dateExpToken = $user['TOKEN_DATE_EXP'];
+                $dateExpToken = $user['TOKEN_EXP'];
 
                 // Si le token hashé du localStorage ne correspond pas à celui
                 // de l'utilisateur stocké dans la base de données

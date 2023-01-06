@@ -80,10 +80,11 @@ if (($mail !== "err--requetehttp") && ($profile !== "err--requetehttp")) {
     // et de ne pas interférer avec une possible autre connexion ou autre)
 
     if(($etat === "creation--ok") || ($etat === "refresh--ok")) {
-        $CRYPTidLinkedIn = User::cryptID($idPersonneLinkedin);
-        session_destroy();
         // On encode en base 64 l'ID crypté pour éviter les problèmes d'encoding
-        $CRYPTidLinkedIn = urlencode(base64_encode($CRYPTidLinkedIn));
+        $CRYPTidLinkedIn = urlencode(base64_encode(User::cryptID($idPersonneLinkedin)));
+
+        session_destroy();
+
         header("Location: ".$hostFront."?prog=".$CRYPTidLinkedIn);
         exit();
     }

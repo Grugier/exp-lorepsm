@@ -1,5 +1,7 @@
 <?php
 
+header("Access-Control-Allow-Origin: *");
+
 // Récupérer une liste de posts
 // - basique : liste de souvenirs avec seulement ID du souvenir et coordonnées (payload minifié pour les points dans la visite)
 // - avec paramètre idAuteur : liste des souvenirs (documents, NOMBRE de likes, commentaires et BOOL liké ou pas par user), commentaires postés et posts likés

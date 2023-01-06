@@ -16,7 +16,7 @@
         setup() {
 
             function clickBouton() {
-                window.location = param.URLauthLinkedIn;
+                window.location = param.URL_authLinkedIn;
             }
 
             // expose to template and other options API hooks
