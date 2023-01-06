@@ -2,7 +2,7 @@
     <section class="contenu">
         <div class="connexion">
             <h1>Connexion</h1>
-            <p>L'accès à la connexion est réservée aux actuels et anciens étudiants de la formation PSM</p>
+            <p>L'accès à la connexion est réservé aux actuels et anciens étudiants de la formation PSM</p>
             <button @click="clickBouton" class="bouton-co-linkedin">Se connecter avec <span
                     id="linkedin">LinkedIn</span></button>
         </div>
@@ -10,6 +10,21 @@
 </template>
 
 <script>
+    import param from '@/param/param';
+
+    export default {
+        setup() {
+
+            function clickBouton() {
+                window.location = param.URLauthLinkedIn;
+            }
+
+            // expose to template and other options API hooks
+            return {
+                clickBouton
+            }
+        },
+    }
 
 </script>
 

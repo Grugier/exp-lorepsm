@@ -5,8 +5,8 @@ $user    = "root";
 $psw     = "";
 
 // Adresse serveur de l'application
-$host 	= "http://localhost";
-$hostFront 	= "http://localhost";
+$host 	= "http://localhost/exp-lorepsm/backend/";
+$hostFront 	= "http://127.0.0.1:5173/";
 
 // Connexion à la bdd avec le fichier de paramètres
 $pdo = new PDO(
