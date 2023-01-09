@@ -1,35 +1,30 @@
 <template>
     <div class="bg">
-        <!-- <div>
-        <p @click="$emit('fermersouvenir')" class="close">X</p>
-        <p>Bonjour je suis un souvenir lol</p>
-    </div> -->
-        <section>
-            <div class="bloc-souvenir">
-                <div class="gestionSouvenir">
-                    <!-- <span class="modif" @click="interactions(souvenir.parent)"
+        <div class="bloc-souvenir">
+            <div class="gestionSouvenir">
+                <!-- <span class="modif" @click="interactions(souvenir.parent)"
                     v-if="utilisateur.id != 73 && utilisateur.id != 0"></span> -->
-                    <span @click="$emit('fermersouvenir')" class="fermer"></span>
-                </div>
-                <div class="souvenir">
-                    <div class="contenuSouvenir">
-                        <div class="entete-souvenir">
-                            <!-- <img :src="(souvenir.parent.lAuteur.photoProfil !== null) ? souvenir.parent.lAuteur.photoProfil : 'http://loremmi.viensenmmi.com/jsonLoremmi/imagesVisite/user-invite.png'"
-                            :alt="souvenir.parent.lAuteur.nom"> -->
-                            <img src="https://dam.malt.com/zd82z90rq7y4lkld76cz?gravity=face&func=face&face_margin=60&w=440&h=440&force_format=webp">
-                            <p class="nom">{{ getAuteur.nom }} {{ getAuteur.prenom }}</p>
-                            <p>- Promo {{ getAuteur.promo }}</p>
-
-                        </div>
-                        <div class="corp-souvenir">
-                            <div class="interagir">
-                                <!-- <span class="coeur" @click="like(souvenir.parent.idPost)"
+                <span @click="$emit('fermersouvenir')" class="fermer"></span>
+            </div>
+            <div class="souvenir">
+                <div class="contenuSouvenir">
+                    <div class="entete-souvenir">
+                        <img :src="(getAuteur.photoProfil !== null) ? getAuteur.photoProfil : 'https://dam.malt.com/zd82z90rq7y4lkld76cz?gravity=face&func=face&face_margin=60&w=440&h=440&force_format=webp'"
+                            :alt="getAuteur.nom">
+                        <p class="nom">{{ getAuteur.prenom }} {{ getAuteur.nom }}</p>
+                        <p>- Promo {{ getAuteur.promo }}</p>
+                    </div>
+                    <div class="corp-souvenir">
+                        <div class="interagir">
+                            <!-- <span class="coeur" @click="like(souvenir.parent.idPost)"
                                 v-bind:class="{ aimeFull: aime, aime: !aime }"></span>
                             <p>{{ souvenir.parent.lesJAime.length }}</p> -->
-                            </div>
-                            <div class="contenu-souvenir">
-                                <p class="texteSouvenir">{{ souvenir.textPost }}</p>
-                                <!-- <img :src="host + 'documentsSouvenirs/' + souvenir.docSVN"
+                            <span class="coeur aime"></span>
+                            <p>{{ souvenir.lesLike }}</p>
+                        </div>
+                        <div class="contenu-souvenir">
+                            <p class="texteSouvenir">{{ souvenir.textPost }}</p>
+                            <!-- <img :src="host + 'documentsSouvenirs/' + souvenir.docSVN"
                                 :alt="souvenir.parent.lAuteur.nom" class="preview"
                                 v-if="checkType(souvenir.docSVN, 'image')" @click="zoomImage = !zoomImage">
                             <div class="zoom" v-if="zoomImage">
@@ -37,25 +32,27 @@
                                 <img :src="host + 'documentsSouvenirs/' + souvenir.docSVN"
                                     :alt="souvenir.parent.lAuteur.nom" @click="zoomImage = !zoomImage">
                             </div> -->
-                                <!-- <audio :src="host + 'documentsSouvenirs/' + souvenir.docSVN"
+                            <!-- <audio :src="host + 'documentsSouvenirs/' + souvenir.docSVN"
                                 v-if="checkType(souvenir.docSVN, 'audio')" controls class="lecteurAudio"></audio>
                             <iframe :src="lienVideo(souvenir.docSVN)" v-if="checkType(souvenir.docSVN, 'video')"
                                 allowfullscreen></iframe> -->
-                            </div>
                         </div>
                     </div>
-                    <div class="listeCommentaire">
-                        <!-- <AfficherCommentaires v-for="commentaire in souvenir.lesCommentaires"
+                </div>
+                <div class="listeCommentaire">
+                    <!-- <AfficherCommentaires v-for="commentaire in souvenir.lesCommentaires"
                         v-bind:key="commentaire.idPost" :commentaire="commentaire" v-on:signaler="signalement = true"
                         v-on:dejasignale="GestionSignaleCom" v-on:rechargement="getPost" :fermeture="fermeture" /> -->
-                    </div>
-                    <!-- <button v-show="((utilisateur.id !== 0) && (!utilisateur.admin) && (utilisateur.id != 73))"
-                    @click="commenter = true">Commenter...</button> -->
+                    <Commentaire v-for="commentaire in souvenir.lesCommentaires" :commentaire="commentaire"
+                        :lAuteur="getAuteurCom(commentaire)" />
                 </div>
+                <!-- <button v-show="((utilisateur.id !== 0) && (!utilisateur.admin) && (utilisateur.id != 73))"
+                    @click="commenter = true">Commenter...</button> -->
             </div>
+        </div>
 
-            <div class="popupInteractions" v-if="action" v-bind:class="{ popupSignaler: !sonSouvenir }">
-                <!-- <div class="suppression" v-if="(sonSouvenir || utilisateur.admin)"
+        <div class="popupInteractions" v-if="action" v-bind:class="{ popupSignaler: !sonSouvenir }">
+            <!-- <div class="suppression" v-if="(sonSouvenir || utilisateur.admin)"
                 @click="supprimer = true; action = false">
                 <span class="poubelle"></span>
                 <p>Supprimer</p>
@@ -70,9 +67,9 @@
                 <span class="drapeau"></span>
                 <p>Signaler </p>
             </div> -->
-            </div>
+        </div>
 
-            <!-- <PopupConfirmation v-if="signalement" v-on:fermer="signalement = false" v-on:signaler="getPost"
+        <!-- <PopupConfirmation v-if="signalement" v-on:fermer="signalement = false" v-on:signaler="getPost"
             :Type="TypeMessage" :idUtilisateur="utilisateur.id" :idPost="souvenir.parent.idPost"
             :dejaSignale="dejaSignale" />
         <ModifierSouvenir :idSouvenir="souvenir.parent.idPost" v-on:fermer="modifier = false" v-on:reload="getPost"
@@ -82,12 +79,12 @@
         <AjoutCommentaire :idSouvenir="souvenir.parent.idPost" :utilisateur="utilisateur" v-if="commenter"
             v-on:fermer="updateVuePost" /> -->
 
-        </section>
     </div>
 </template>
 
 <script setup>
 import { reactive, computed } from 'vue';
+import Commentaire from '../components/Commentaire.vue'
 
 const souvenir = reactive({
     coords: "0.3;0.2;0.2",
@@ -96,7 +93,7 @@ const souvenir = reactive({
         {
             idPost: "3",
             datePost: "2022-12-30 20:43:45",
-            textPost: "fgdgfdgfdgf",
+            textPost: "Franchement pas super marrant, marre de cette blague !",
             lAuteur: "2",
             lesLike: "1",
             userALike: true
@@ -122,7 +119,7 @@ const auteurs = reactive({
         {
             idUser: "1", typeUser: "1", prenom: "Malo", nom: "Lerenard", photoProfil: null, promo: "2023", lesSouvenirs: [], lesCommentaires: [], lesLike: []
         }, {
-            idUser: "2", typeUser: "1", prenom: "Malo", nom: "Lerenard", photoProfil: null, promo: null, lesSouvenirs: [], lesCommentaires: [], lesLike: []
+            idUser: "2", typeUser: "1", prenom: "Katia", nom: "Dejragie", photoProfil: null, promo: "2023", lesSouvenirs: [], lesCommentaires: [], lesLike: []
         },
     ]
 });
@@ -132,13 +129,15 @@ const getAuteur = computed(() => {
     return auteurs.listAuteurs.find((a) => a.idUser == souvenir.lAuteur)
 });
 
+//Fonction pour avoir les infos de l'auteur d'un commentaire
+function getAuteurCom(com) {
+    return auteurs.listAuteurs.find((a) => a.idUser == com.lAuteur)
+}
+
 
 </script>
 
 <style scoped>
-section {
-    padding-top: 10rem;
-}
 .bg {
     position: fixed;
     top: 0;
@@ -229,7 +228,7 @@ button {
 
 /*Mise en page*/
 .interagir {
-    margin-left: 2.7rem;
+    margin-left: 2.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -239,7 +238,7 @@ button {
 .interagir p,
 .corp-souvenir p {
     margin: 0 0 1rem 0;
-    max-width: 75%;
+    /* max-width: 75%; */
 }
 
 .corp-souvenir {
@@ -270,7 +269,7 @@ button {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin-top: 7rem;
+    margin-top: 17rem;
 }
 
 .entete-souvenir {
