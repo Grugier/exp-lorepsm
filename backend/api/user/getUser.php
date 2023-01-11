@@ -24,7 +24,7 @@ $idUser = $_GET["idUser"];
 $user = User::getBasicUserInfos($idUser);
 
 // Souvenirs avec likes et commentaires
-$user->setLesSouvenirs(Souvenir::getSouvenirsUser($idUser));
+//$user->setLesSouvenirs(Souvenir::getSouvenirsUser($idUser));
 
 
 
