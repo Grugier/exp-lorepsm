@@ -231,6 +231,7 @@ main {
 
 #presentation h2 {
   margin-bottom: 0;
+  color: #EEEDEC;
 }
 
 #presentation p {

@@ -92,7 +92,7 @@ import Commentaire from '../components/Commentaire.vue'
 
 const souvenir = reactive({
     coords: "0.3;0.2;0.2",
-    dateSvn: null,
+    dateSvn: "2022-12-22 00:00:00",
     lesCommentaires: [
         {
             idPost: "3",
@@ -362,6 +362,11 @@ iframe {
 .contenu-souvenir {
     width: 75%;
     border-bottom: 2px solid #302A2A;
+}
+
+.date {
+    font-style: italic;
+    font-size: 1.5rem;
 }
 
 /*ADD SAOUVENIR*/
