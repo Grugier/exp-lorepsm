@@ -48,7 +48,7 @@
 const props = defineProps({
   commentaire: Object,
   lAuteur: Object
-})
+});
 
 </script>
 

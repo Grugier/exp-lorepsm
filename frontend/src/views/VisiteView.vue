@@ -1,5 +1,6 @@
 <template>
-    <a-scene raycaster="objects: .clickable" cursor="rayOrigin: mouse" renderer="colorManagement: true;" background="color: #ECECEC">
+    <a-scene raycaster="objects: .clickable" cursor="rayOrigin: mouse" renderer="colorManagement: true;"
+        background="color: #ECECEC">
         <!-- <a-assets>
             <a-asset-item id="stgic" src="/BatimentC.glb"></a-asset-item>
         </a-assets>
@@ -37,15 +38,15 @@
         </a-entity>
 
         <!-- Souvenir statique de test -->
-        <a-entity souvenir id="sphere" geometry="primitive: sphere; radius: 0.25"
+        <!-- <a-entity souvenir id="sphere" geometry="primitive: sphere; radius: 0.25"
                 material="color: #99BF1C; shader: flat"
                 position="7 2 0"
                 light="type: point; intensity: 0.075"
                 class="clickable"
-              ></a-entity>
+              ></a-entity> -->
     </a-scene>
 
-    <Souvenir v-show="souvenir.open" @fermersouvenir ="souvenir.open = false"/>
+    <Souvenir v-show="souvenir.open" @fermersouvenir="souvenir.open = false" :idSouvenir="souvenir.idClicked" />
 </template>
 
 <style>
@@ -56,14 +57,54 @@ a-scene {
 </style>
 <script setup>
 import { reactive, onMounted } from 'vue'
+import axios from 'axios'
 import Souvenir from '../components/Souvenir.vue'
 
-let souvenir = reactive({ open: false})
+let souvenir = reactive({ open: false, idClicked : null })
+//let lstSouvenirs = {};
+
+//Placer les souvenirs
+function addSpot(spot) {
+    console.log("Spot : ", spot);
+    const coords = spot.coordsPost.split(';');
+
+    var sceneEl = document.querySelector('a-scene');
+    var entityEl = document.createElement('a-entity');
+    entityEl.setAttribute('geometry', {
+        primitive: 'sphere',
+        radius: 0.25
+    });
+    entityEl.setAttribute('material', {
+        color: '#99BF1C',
+        shader: "flat"
+    });
+    // entityEl.setAttribute('light', {
+    //     type: 'point',
+    //     intensity: "0.075"
+    // });
+    entityEl.setAttribute('position', {x: coords[0], y: coords[1], z: coords[2]});
+    entityEl.setAttribute('class', 'clickable');
+    entityEl.setAttribute('souvenir', '');
+    entityEl.setAttribute('id', spot.idPost);
+
+    sceneEl.appendChild(entityEl);
+}
 
 onMounted(() => {
     //Pour charger un modèle
     //document.querySelector("a-entity").setAttribute("gltf-model", "#stgic");
-})
+
+    //Charger la liste des souvenirs
+    axios.get('http://localhost/exp-lorepsm/backend/api/post/getPostsList.php').then((list) => {
+        //lstSouvenirs = list;
+
+        list.data.forEach(p => {
+            //console.log('Post : ', p);
+            addSpot(p);
+        });
+        //console.log("Lst souvenir :", lstSouvenirs);
+    });
+});
 
 //===A-frame===//
 AFRAME.registerComponent("souvenir", {
@@ -71,8 +112,9 @@ AFRAME.registerComponent("souvenir", {
         const el = this.el;
 
         //Clique sur le souvenir
-        el.addEventListener("click", function() {
+        el.addEventListener("click", function () {
             console.log('Souvenir cliqué !');
+            souvenir.idClicked = el.getAttribute('id');
             souvenir.open = true;
         });
     }

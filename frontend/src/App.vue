@@ -20,13 +20,21 @@
 
     <RouterLink to="/" id="explorepsm-logo">Exp-LorePsm</RouterLink>
 
-    <RouterLink to="/Connexion" class="liensProfil">
+    <RouterLink to="/Profil" class="liensProfil" v-if="store.userCo.idUser != 0">
+      <div class="identite">
+        <p>{{ store.userCo.prenom }}</p>
+        <img :src="store.userCo.img" alt="Utilisateur de LoreMMi">
+      </div>
+    </RouterLink>
+
+    <RouterLink to="/Connexion" class="liensProfil" v-else>
       <div class="identite">
         <p>Invité</p>
         <img src="https://www.logolynx.com/images/logolynx/4b/4beebce89d681837ba2f4105ce43afac.png"
           alt="Utilisateur de LoreMMi">
       </div>
     </RouterLink>
+
   </header>
 
   <RouterView />
@@ -40,6 +48,7 @@ import param from "@/param/param";
 import appService from '@/services/appService'
 
 import { useExploreStore } from "@/stores/exploreStore";
+import { storeToRefs } from 'pinia';
 import { useRouter } from "vue-router";
 import axios from "axios";
 
@@ -48,14 +57,14 @@ export default {
 
     // On crée une instance du store de l'application
     const store = useExploreStore();
-
+    const { userCo } = storeToRefs(store);
     const router = useRouter();
 
     // Navigation guards
     router.beforeEach(to => {
 
       // SI MESSAGE D'ERREUR
-      if(to.query.err) {
+      if (to.query.err) {
         let messageErreur;
         switch (to.query.err) {
           case "err-li":
@@ -68,7 +77,7 @@ export default {
       }
 
       // CONNEXION AVEC LINKEDIN
-      else if(to.query.prog && to.query.prog !== '') {
+      else if (to.query.prog && to.query.prog !== '') {
         // Base64Decode
         const prog = decodeURIComponent(escape(window.atob(to.query.prog)));
         fetchUserInfos(prog, to);
@@ -117,7 +126,7 @@ export default {
         }
 
         // On enlève la query de l'URL
-        if(path !== null) {
+        if (path !== null) {
           router.replace(path.path);
         }
 
@@ -126,7 +135,7 @@ export default {
     }
 
 
-    function checkLocalStorage () {
+    function checkLocalStorage() {
 
       // Initialisation des informations depuis le localStorage
       const localStorage = appService.getLocal();
@@ -238,6 +247,9 @@ export default {
         unLien.addEventListener("click", doToggle);
       }
     });
+    return {
+      userCo 
+    }
   },
 }
 

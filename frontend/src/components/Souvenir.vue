@@ -13,6 +13,7 @@
                             :alt="getAuteur.nom">
                         <p class="nom">{{ getAuteur.prenom }} {{ getAuteur.nom }}</p>
                         <p>- Promo {{ getAuteur.promo }}</p>
+                     
                     </div>
                     <div class="corp-souvenir">
                         <div class="interagir">
@@ -36,6 +37,7 @@
                                 v-if="checkType(souvenir.docSVN, 'audio')" controls class="lecteurAudio"></audio>
                             <iframe :src="lienVideo(souvenir.docSVN)" v-if="checkType(souvenir.docSVN, 'video')"
                                 allowfullscreen></iframe> -->
+                                <p v-if="souvenir.dateSvn" class="date">Le {{ souvenir.dateSvn }}</p>
                         </div>
                     </div>
                 </div>
@@ -83,7 +85,9 @@
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue';
+import { reactive, computed, onMounted } from 'vue';
+import axios from 'axios'
+
 import Commentaire from '../components/Commentaire.vue'
 
 const souvenir = reactive({
@@ -124,6 +128,10 @@ const auteurs = reactive({
     ]
 });
 
+const props = defineProps({
+    idSouvenir: Object
+});
+
 //Computed pour avoir les infos de l'auteur d'un souvenir
 const getAuteur = computed(() => {
     return auteurs.listAuteurs.find((a) => a.idUser == souvenir.lAuteur)
@@ -134,6 +142,12 @@ function getAuteurCom(com) {
     return auteurs.listAuteurs.find((a) => a.idUser == com.lAuteur)
 }
 
+onMounted(() => {
+    //Charger les infos du souvenir
+    axios.get('http://localhost/exp-lorepsm/backend/api/post/getPostInfo.php?idPost=' + props.idSouvenir).then((p) => {
+        console.log('p : ', p);
+    });
+})
 
 </script>
 
