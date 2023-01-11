@@ -20,10 +20,10 @@
 
     <RouterLink to="/" id="explorepsm-logo">Exp-LorePsm</RouterLink>
 
-    <RouterLink to="/Profil" class="liensProfil" v-if="store.userCo.idUser != 0">
+    <RouterLink to="/Profil" class="liensProfil" v-if="userCo.idUser != 0">
       <div class="identite">
-        <p>{{ store.userCo.prenom }}</p>
-        <img :src="store.userCo.img" alt="Utilisateur de LoreMMi">
+        <p>{{ userCo.prenom }}</p>
+        <img :src="userCo.photoProfil" alt="Utilisateur de LoreMMi">
       </div>
     </RouterLink>
 
