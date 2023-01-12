@@ -5,7 +5,7 @@
             <div class="leCom">
                 <div class="entete-com">
                     <!-- <img :src="props.lAuteur.photoProfil" :alt="props.commentaire.lAuteur.nom"> -->
-                    <img :src="(props.lAuteur.photoProfil !== null) ? props.lAuteur.photoProfil : 'https://phgarin.files.wordpress.com/2015/01/ca_m_agace.png'"
+                    <img :src="(props.lAuteur.photoProfil !== null) ? param.URL_userPictures+props.lAuteur.photoProfil : 'https://phgarin.files.wordpress.com/2015/01/ca_m_agace.png'"
                                 :alt="props.lAuteur.nom">
                     <p class="nom">{{ props.lAuteur.prenom }} {{ props.lAuteur.nom }}</p>
                     <p>- Promo {{ props.lAuteur.promo }}</p>
@@ -45,6 +45,8 @@
 </template>
 
 <script setup>
+import param from "@/param/param";
+
 const props = defineProps({
   commentaire: Object,
   lAuteur: Object

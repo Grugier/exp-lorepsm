@@ -20,6 +20,8 @@ export default {
     //     }
     // },
 
+    URL_userPictures: host + 'documentsUGC/profilePicUsers/',
+
     // USER
     URL_getLoggedUser: host + 'api/user/getLoggedUser.php',
 
