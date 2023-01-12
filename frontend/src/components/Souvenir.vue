@@ -13,7 +13,7 @@
                             :alt="getAuteur.nom">
                         <p class="nom">{{ getAuteur.prenom }} {{ getAuteur.nom }}</p>
                         <p>- Promo {{ getAuteur.promo }}</p>
-                     
+
                     </div>
                     <div class="corp-souvenir">
                         <div class="interagir">
@@ -37,7 +37,7 @@
                                 v-if="checkType(souvenir.docSVN, 'audio')" controls class="lecteurAudio"></audio>
                             <iframe :src="lienVideo(souvenir.docSVN)" v-if="checkType(souvenir.docSVN, 'video')"
                                 allowfullscreen></iframe> -->
-                                <p v-if="souvenir.dateSvn" class="date">Le {{ souvenir.dateSvn }}</p>
+                            <p v-if="souvenir.dateSvn" class="date">Le {{ souvenir.dateSvn }}</p>
                         </div>
                     </div>
                 </div>
@@ -85,51 +85,50 @@
 </template>
 
 <script setup>
-import { reactive, computed, onMounted } from 'vue';
+import { reactive, computed, watch, getCurrentInstance } from 'vue';
 import axios from 'axios'
-
+import param from "@/param/param";
 import Commentaire from '../components/Commentaire.vue'
 
-const souvenir = reactive({
-    coords: "0.3;0.2;0.2",
-    dateSvn: "2022-12-22 00:00:00",
+let souvenir = reactive({
+    coords: "",
+    dateSvn: "",
     lesCommentaires: [
         {
-            idPost: "3",
-            datePost: "2022-12-30 20:43:45",
-            textPost: "Franchement pas super marrant, marre de cette blague !",
-            lAuteur: "2",
-            lesLike: "1",
-            userALike: true
+            idPost: "",
+            datePost: "",
+            textPost: "",
+            lAuteur: "",
+            lesLike: "",
+            userALike: false
         }],
     lesDocuments: [
         {
-            idDoc: "1",
-            typeDoc: "0",
-            nomDoc: "fdsfds.jpg",
+            idDoc: "",
+            typeDoc: "",
+            nomDoc: "",
             leSouvenir: null
         }
     ],
-    idPost: "1",
-    datePost: "2022-12-22 00:00:00",
-    textPost: "FEUR MEC, FEUR, t'as compris ? FEUR HAHA JE SUIS TROP DRÔLE",
-    lAuteur: "1",
-    lesLike: "2",
+    idPost: "",
+    datePost: "",
+    textPost: "",
+    lAuteur: "",
+    lesLike: "",
     userALike: true
 })
 
-const auteurs = reactive({
+let auteurs = reactive({
     listAuteurs: [
         {
-            idUser: "1", typeUser: "1", prenom: "Malo", nom: "Lerenard", photoProfil: null, promo: "2023", lesSouvenirs: [], lesCommentaires: [], lesLike: []
-        }, {
-            idUser: "2", typeUser: "1", prenom: "Katia", nom: "Dejragie", photoProfil: null, promo: "2023", lesSouvenirs: [], lesCommentaires: [], lesLike: []
-        },
+            idUser: "", typeUser: "", prenom: "", nom: "", photoProfil: null, promo: "", lesSouvenirs: [], lesCommentaires: [], lesLike: []
+        }
     ]
 });
 
+const instance = getCurrentInstance();
 const props = defineProps({
-    idSouvenir: Object
+    idSouvenir: Number
 });
 
 //Computed pour avoir les infos de l'auteur d'un souvenir
@@ -142,12 +141,59 @@ function getAuteurCom(com) {
     return auteurs.listAuteurs.find((a) => a.idUser == com.lAuteur)
 }
 
-onMounted(() => {
+//Surveiller le clique sur un souvenir
+watch(
+    () => props.idSouvenir,
+    (idSouvenir) => {
+        clearSouvenir();
+        loadSouvenir(idSouvenir);
+    }
+)
+
+function loadSouvenir(idSouvenir) {
     //Charger les infos du souvenir
-    axios.get('http://localhost/exp-lorepsm/backend/api/post/getPostInfo.php?idPost=' + props.idSouvenir).then((p) => {
-        console.log('p : ', p);
+    axios.get(param.host + '/api/post/getPostInfo.php?idPost=' + idSouvenir).then((rep) => {
+        auteurs.listAuteurs = rep.data.auteurs;
+        souvenir = rep.data.souvenirs[0];
+        instance?.proxy?.$forceUpdate();
     });
-})
+}
+
+function clearSouvenir() {
+    souvenir = {
+        coords: "",
+        dateSvn: "",
+        lesCommentaires: [
+            {
+                idPost: "",
+                datePost: "",
+                textPost: "",
+                lAuteur: "",
+                lesLike: "",
+                userALike: false
+            }],
+        lesDocuments: [
+            {
+                idDoc: "",
+                typeDoc: "",
+                nomDoc: "",
+                leSouvenir: null
+            }
+        ],
+        idPost: "",
+        datePost: "",
+        textPost: "",
+        lAuteur: "",
+        lesLike: "",
+        userALike: true
+    };
+
+    auteurs.listAuteurs = [
+        {
+            idUser: "", typeUser: "", prenom: "", nom: "", photoProfil: null, promo: "", lesSouvenirs: [], lesCommentaires: [], lesLike: []
+        }
+    ];
+}
 
 </script>
 
@@ -193,7 +239,9 @@ onMounted(() => {
 }
 
 .nom {
-    width: max-content;
+    white-space: nowrap;
+    max-width: 16rem;
+    overflow: hidden;
     background: linear-gradient(#E59845, #E59845);
     background-size: auto .5em;
     background-position: bottom;

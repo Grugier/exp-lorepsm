@@ -71,7 +71,9 @@ const props = defineProps({
 }
 
 .nom {
-    width: max-content;
+    white-space: nowrap;
+    max-width: 16rem;
+    overflow: hidden;
     background: linear-gradient(#E59845, #E59845);
     background-size: auto .5em;
     background-position: bottom;

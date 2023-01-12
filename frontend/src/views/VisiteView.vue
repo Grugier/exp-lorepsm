@@ -58,6 +58,7 @@ a-scene {
 <script setup>
 import { reactive, onMounted } from 'vue'
 import axios from 'axios'
+import param from "@/param/param";
 import Souvenir from '../components/Souvenir.vue'
 
 let souvenir = reactive({ open: false, idClicked : null })
@@ -95,7 +96,7 @@ onMounted(() => {
     //document.querySelector("a-entity").setAttribute("gltf-model", "#stgic");
 
     //Charger la liste des souvenirs
-    axios.get('http://localhost/exp-lorepsm/backend/api/post/getPostsList.php').then((list) => {
+    axios.get(param.host + '/api/post/getPostsList.php').then((list) => {
         //lstSouvenirs = list;
 
         list.data.forEach(p => {
