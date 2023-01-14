@@ -9,7 +9,7 @@
             <div class="souvenir">
                 <div class="contenuSouvenir">
                     <div class="entete-souvenir">
-                        <img :src="(getAuteur.photoProfil !== null) ? param.URL_userPictures+getAuteur.photoProfil : 'https://dam.malt.com/zd82z90rq7y4lkld76cz?gravity=face&func=face&face_margin=60&w=440&h=440&force_format=webp'"
+                        <img :src="(getAuteur.photoProfil !== null) ? param.URL_userPictures + getAuteur.photoProfil : 'https://dam.malt.com/zd82z90rq7y4lkld76cz?gravity=face&func=face&face_margin=60&w=440&h=440&force_format=webp'"
                             :alt="getAuteur.nom">
                         <p class="nom">{{ getAuteur.prenom }} {{ getAuteur.nom }}</p>
                         <p>- Promo {{ getAuteur.promo }}</p>
@@ -24,6 +24,7 @@
                             <p>{{ souvenir.lesLike }}</p>
                         </div>
                         <div class="contenu-souvenir">
+                            <p v-if="souvenir.dateSvn">Le {{ getDate(souvenir.dateSvn) }} : </p>
                             <p class="texteSouvenir">{{ souvenir.textPost }}</p>
                             <!-- <img :src="host + 'documentsSouvenirs/' + souvenir.docSVN"
                                 :alt="souvenir.parent.lAuteur.nom" class="preview"
@@ -37,7 +38,7 @@
                                 v-if="checkType(souvenir.docSVN, 'audio')" controls class="lecteurAudio"></audio>
                             <iframe :src="lienVideo(souvenir.docSVN)" v-if="checkType(souvenir.docSVN, 'video')"
                                 allowfullscreen></iframe> -->
-                            <p v-if="souvenir.dateSvn" class="date">Le {{ souvenir.dateSvn }}</p>
+                            <p v-if="souvenir.datePost" class="date">Publié le {{ getDate(souvenir.datePost) }}</p>
                         </div>
                     </div>
                 </div>
@@ -139,6 +140,54 @@ const getAuteur = computed(() => {
 //Fonction pour avoir les infos de l'auteur d'un commentaire
 function getAuteurCom(com) {
     return auteurs.listAuteurs.find((a) => a.idUser == com.lAuteur)
+}
+
+//Fonction pour formater la date
+function getDate(d) {
+    const date = new Date(d);
+    let mois;
+    switch (date.getMonth()) {
+        case 0:
+            mois = "janvier";
+            break;
+        case 1:
+            mois = "février";
+            break;
+        case 2:
+            mois = "mars";
+            break;
+        case 3:
+            mois = "avril";
+            break;
+        case 4:
+            mois = "mai";
+            break;
+        case 5:
+            mois = "juin";
+            break;
+        case 6:
+            mois = "juillet";
+            break;
+        case 7:
+            mois = "août";
+            break;
+        case 8:
+            mois = "septembre";
+            break;
+        case 9:
+            mois = "octobre";
+            break;
+        case 10:
+            mois = "novembre";
+            break;
+        case 11:
+            mois = "décembre";
+            break;
+        default:
+            break;
+    }
+
+    return date.getDate() + " " + mois + " " + date.getFullYear();
 }
 
 //Surveiller le clique sur un souvenir

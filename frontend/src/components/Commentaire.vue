@@ -5,8 +5,8 @@
             <div class="leCom">
                 <div class="entete-com">
                     <!-- <img :src="props.lAuteur.photoProfil" :alt="props.commentaire.lAuteur.nom"> -->
-                    <img :src="(props.lAuteur.photoProfil !== null) ? param.URL_userPictures+props.lAuteur.photoProfil : 'https://phgarin.files.wordpress.com/2015/01/ca_m_agace.png'"
-                                :alt="props.lAuteur.nom">
+                    <img :src="(props.lAuteur.photoProfil !== null) ? param.URL_userPictures + props.lAuteur.photoProfil : 'https://phgarin.files.wordpress.com/2015/01/ca_m_agace.png'"
+                        :alt="props.lAuteur.nom">
                     <p class="nom">{{ props.lAuteur.prenom }} {{ props.lAuteur.nom }}</p>
                     <p>- Promo {{ props.lAuteur.promo }}</p>
                 </div>
@@ -17,7 +17,11 @@
                         <span class="coeur aime"></span>
                         <p>{{ props.commentaire.lesLike }}</p>
                     </div>
-                    <p>{{ props.commentaire.textPost }}</p>
+                    <div>
+                        <p>{{ props.commentaire.textPost }}</p>
+                        <p v-if="props.commentaire.datePost" class="date">Publié le {{ getDate(props.commentaire.datePost) }}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,10 +52,57 @@
 import param from "@/param/param";
 
 const props = defineProps({
-  commentaire: Object,
-  lAuteur: Object
+    commentaire: Object,
+    lAuteur: Object
 });
 
+//Fonction pour formater la date
+function getDate(d) {
+    const date = new Date(d);
+    let mois;
+    switch (date.getMonth()) {
+        case 0:
+            mois = "janvier";
+            break;
+        case 1:
+            mois = "février";
+            break;
+        case 2:
+            mois = "mars";
+            break;
+        case 3:
+            mois = "avril";
+            break;
+        case 4:
+            mois = "mai";
+            break;
+        case 5:
+            mois = "juin";
+            break;
+        case 6:
+            mois = "juillet";
+            break;
+        case 7:
+            mois = "août";
+            break;
+        case 8:
+            mois = "septembre";
+            break;
+        case 9:
+            mois = "octobre";
+            break;
+        case 10:
+            mois = "novembre";
+            break;
+        case 11:
+            mois = "décembre";
+            break;
+        default:
+            break;
+    }
+
+    return date.getDate() + " " + mois + " " + date.getFullYear();
+}
 </script>
 
 <style scoped>
@@ -148,6 +199,12 @@ const props = defineProps({
 
 .leCom {
     width: 100%;
+}
+
+.corp-com .date {
+    font-style: italic;
+    font-size: 1.5rem;
+    margin-top: 1rem;
 }
 
 /*Popup d'interactions*/
