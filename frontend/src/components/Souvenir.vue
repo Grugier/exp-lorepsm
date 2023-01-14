@@ -26,17 +26,15 @@
                         <div class="contenu-souvenir">
                             <p v-if="souvenir.dateSvn">Le {{ getDate(souvenir.dateSvn) }} : </p>
                             <p class="texteSouvenir">{{ souvenir.textPost }}</p>
-                            <!-- <img :src="host + 'documentsSouvenirs/' + souvenir.docSVN"
-                                :alt="souvenir.parent.lAuteur.nom" class="preview"
-                                v-if="checkType(souvenir.docSVN, 'image')" @click="zoomImage = !zoomImage">
+                            <img :src="param.URL_userDocuments + souvenir.lesDocuments[0].nomDoc"
+                                :alt="getAuteur.nom" class="preview"
+                                v-if="souvenir.lesDocuments[0]" @click="zoomImage = !zoomImage">
                             <div class="zoom" v-if="zoomImage">
                                 <span class="fermerZoom" @click="zoomImage = false"></span>
-                                <img :src="host + 'documentsSouvenirs/' + souvenir.docSVN"
-                                    :alt="souvenir.parent.lAuteur.nom" @click="zoomImage = !zoomImage">
-                            </div> -->
-                            <!-- <audio :src="host + 'documentsSouvenirs/' + souvenir.docSVN"
-                                v-if="checkType(souvenir.docSVN, 'audio')" controls class="lecteurAudio"></audio>
-                            <iframe :src="lienVideo(souvenir.docSVN)" v-if="checkType(souvenir.docSVN, 'video')"
+                                <img :src="param.URL_userDocuments + souvenir.lesDocuments[0].nomDoc"
+                                    :alt="getAuteur.nom" @click="zoomImage = !zoomImage">
+                            </div>
+                            <!-- <iframe :src="lienVideo(souvenir.docSVN)" v-if="checkType(souvenir.docSVN, 'video')"
                                 allowfullscreen></iframe> -->
                             <p v-if="souvenir.datePost" class="date">Publié le {{ getDate(souvenir.datePost) }}</p>
                         </div>
@@ -86,7 +84,7 @@
 </template>
 
 <script setup>
-import { reactive, computed, watch, getCurrentInstance } from 'vue';
+import { reactive, ref, computed, watch, getCurrentInstance } from 'vue';
 import axios from 'axios'
 import param from "@/param/param";
 import Commentaire from '../components/Commentaire.vue'
@@ -126,6 +124,9 @@ let auteurs = reactive({
         }
     ]
 });
+
+//Popup
+const zoomImage = ref(false);
 
 const instance = getCurrentInstance();
 const props = defineProps({
@@ -400,7 +401,9 @@ button {
     border-radius: 2rem;
     margin-bottom: 1rem;
 }
-
+.contenu-souvenir>img {
+    cursor: pointer;
+}
 audio {
     margin-bottom: 1rem;
 }

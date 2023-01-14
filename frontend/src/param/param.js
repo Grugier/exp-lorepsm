@@ -21,6 +21,7 @@ export default {
     // },
 
     URL_userPictures: host + 'documentsUGC/profilePicUsers/',
+    URL_userDocuments : host + 'documentsUGC/souvenirs/',
 
     // USER
     URL_getLoggedUser: host + 'api/user/getLoggedUser.php',
