@@ -26,16 +26,17 @@
                         <div class="contenu-souvenir">
                             <p v-if="souvenir.dateSvn">Le {{ getDate(souvenir.dateSvn) }} : </p>
                             <p class="texteSouvenir">{{ souvenir.textPost }}</p>
-                            <img :src="param.URL_userDocuments + souvenir.lesDocuments[0].nomDoc"
-                                :alt="getAuteur.nom" class="preview"
-                                v-if="souvenir.lesDocuments[0]" @click="zoomImage = !zoomImage">
+                            <img :src="param.URL_userDocuments + souvenir.lesDocuments[0].nomDoc" :alt="getAuteur.nom"
+                                class="preview" v-if="souvenir.lesDocuments[0] && souvenir.lesDocuments[0].typeDoc == 0"
+                                @click="zoomImage = !zoomImage">
                             <div class="zoom" v-if="zoomImage">
                                 <span class="fermerZoom" @click="zoomImage = false"></span>
                                 <img :src="param.URL_userDocuments + souvenir.lesDocuments[0].nomDoc"
                                     :alt="getAuteur.nom" @click="zoomImage = !zoomImage">
                             </div>
-                            <!-- <iframe :src="lienVideo(souvenir.docSVN)" v-if="checkType(souvenir.docSVN, 'video')"
-                                allowfullscreen></iframe> -->
+                            <iframe :src="getLienVideo(souvenir.lesDocuments[0].nomDoc)"
+                                v-if="souvenir.lesDocuments[0] && souvenir.lesDocuments[0].typeDoc == 2 && souvenir.lesDocuments[0].nomDoc.includes('youtu')"
+                                allowfullscreen></iframe>
                             <p v-if="souvenir.datePost" class="date">Publié le {{ getDate(souvenir.datePost) }}</p>
                         </div>
                     </div>
@@ -189,6 +190,19 @@ function getDate(d) {
     }
 
     return date.getDate() + " " + mois + " " + date.getFullYear();
+}
+
+//Formatage de l'url de la vidéo
+function getLienVideo(url) {
+    //Seul les vidéo de youtube sont acceptée et il existe 2 formats : l'url direct et le partage
+    if (url.includes("youtube.com")) {
+        return url.replace("watch?v=", "embed/");
+    } else if (url.includes("youtu.be")) {
+        let videoId = url.split("/").pop();
+        return `https://www.youtube.com/embed/${videoId}`;
+    } else {
+        return
+    }
 }
 
 //Surveiller le clique sur un souvenir
@@ -401,9 +415,11 @@ button {
     border-radius: 2rem;
     margin-bottom: 1rem;
 }
+
 .contenu-souvenir>img {
     cursor: pointer;
 }
+
 audio {
     margin-bottom: 1rem;
 }
