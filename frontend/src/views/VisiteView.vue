@@ -1,10 +1,10 @@
 <template>
-    <a-scene raycaster="objects: .clickable" cursor="rayOrigin: mouse" renderer="colorManagement: true;"
+    <a-scene raycaster="objects: .clickable" removecursorwheninvr cursor="rayOrigin: mouse" renderer="colorManagement: true;"
         background="color: #ECECEC">
-        <!-- <a-assets>
-            <a-asset-item id="stgic" src="/BatimentC.glb"></a-asset-item>
+        <a-assets>
+            <a-asset-item id="stgic" src="/stgi_c__mixed_v1.glb"></a-asset-item>
         </a-assets>
-        <a-entity static-body></a-entity> -->
+        <a-entity id="stgic-entity"></a-entity>
 
         <!-- ENVIRONNEMENT DE TEST EN ATTENDANT LE BATIMENT -->
 
@@ -13,16 +13,18 @@
             color="#ffffff" material="shader: flat;"></a-plane>
 
         <!-- Sol -->
-        <a-plane static-body position="-0.62674 0 -4.46685" rotation="-90 0 0" width="35.99" height="36.95"
+        <a-plane static-body position="-0.62674 -0.1 -4.46685" rotation="-90 0 0" width="35.99" height="36.95"
             color="#999999" shadow></a-plane>
 
         <!-- Murs -->
-        <a-box static-body position="16.61 3.5 -4.57041" geometry="height: 8; width: 37.27" rotation="0 90 0"></a-box>
-        <a-box static-body position="-17.857 3.5 -4.35469" geometry="height: 8; width: 37.19" rotation="0 90 0"></a-box>
-        <a-box static-body position="-0.43974 3.5 7.604" geometry="height: 8; width: 35.52"></a-box>
-        <a-box static-body position="-0.4882 3.5 -22.5" geometry="height: 8; width: 35.59"></a-box>
+<!--        <a-box static-body position="16.61 3.5 -4.57041" geometry="height: 8; width: 37.27" rotation="0 90 0"></a-box>-->
+<!--        <a-box static-body position="-17.857 3.5 -4.35469" geometry="height: 8; width: 37.19" rotation="0 90 0"></a-box>-->
+<!--        <a-box static-body position="-0.43974 3.5 7.604" geometry="height: 8; width: 35.52"></a-box>-->
+<!--        <a-box static-body position="-0.4882 3.5 -22.5" geometry="height: 8; width: 35.59"></a-box>-->
 
-        <a-box static-body position="7 .7 0" geometry="height: 2; width: 2"></a-box>
+<!--        <a-box static-body position="9 1.298195 0" geometry="height: 2.59639; width: 1"></a-box>-->
+<!--        <a-box static-body position="8 1 0" geometry="height: 2; width: 1"></a-box>-->
+<!--        <a-box static-body position="7 .5 0" geometry="height: 1; width: 1"></a-box>-->
 
         <a-entity light="type: ambient; intensity: 0.35;"></a-entity>
         <a-entity light="type: ambient; intensity: 0.35;"></a-entity>
@@ -33,8 +35,8 @@
         <!-- FIN ENVIRONNEMENT DE TEST -->
 
         <!-- Caméra -->
-        <a-entity id="joueur" kinema-body="radius: 0.4;" movement-controls="fly: false" position="0 0 -4.531">
-            <a-entity camera position="0 1.8 0" look-controls></a-entity>
+        <a-entity id="joueur" kinema-body="radius: 0.4;" movement-controls="fly: false" position="-3.357 -0.1 7.255">
+            <a-entity camera position="0 1.6 0" look-controls="mouseEnabled: true"></a-entity>
         </a-entity>
 
         <!-- Souvenir statique de test -->
@@ -163,7 +165,7 @@ function resetInfos() {
 
 onMounted(() => {
     //Pour charger un modèle
-    //document.querySelector("a-entity").setAttribute("gltf-model", "#stgic");
+    document.querySelector("#stgic-entity").setAttribute("gltf-model", "#stgic");
 
     //Charger la liste des souvenirs
     axios.get(param.host + '/api/post/getPostsList.php').then((list) => {
