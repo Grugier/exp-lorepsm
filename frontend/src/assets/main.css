@@ -19,7 +19,8 @@ html {
 /*===Styles typographiques===*/
 a,
 p,
-button {
+button,
+textarea {
   font-family: 'Noto Sans', Arial, sans-serif;
 }
 
@@ -256,9 +257,11 @@ header {
 body {
   background-color: #EEEDEC;
 }
+
 .flex {
   display: flex;
 }
+
 /* main {
   margin-top: 9.5rem;
   padding-left: 4rem;

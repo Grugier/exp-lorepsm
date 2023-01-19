@@ -306,7 +306,7 @@ function clearSouvenir() {
     white-space: nowrap;
     max-width: 16rem;
     overflow: hidden;
-    background: linear-gradient(#E59845, #E59845);
+    background: linear-gradient(var(--darkGreen), var(--darkGreen));
     background-size: auto .5em;
     background-position: bottom;
     background-repeat: no-repeat;

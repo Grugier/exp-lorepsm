@@ -23,7 +23,7 @@
     <RouterLink to="/Profil" class="liensProfil" v-if="userCo.idUser != 0">
       <div class="identite">
         <p>{{ userCo.prenom }}</p>
-        <img :src="'http://localhost/exp-lorepsm/backend/documentsUGC/profilePicUsers/' + userCo.photoProfil" alt="Utilisateur de LoreMMi">
+        <img :src="'http://localhost/exp-lorepsm/backend/documentsUGC/profilePicUsers/' + userCo.photoProfil" alt="Utilisateur d'Exp-lorePSM">
       </div>
     </RouterLink>
 
