@@ -1,105 +1,106 @@
 <template>
-    <a-scene raycaster="objects: .clickable" removecursorwheninvr cursor="rayOrigin: mouse" renderer="colorManagement: true;"
-        background="color: #ECECEC">
-        <a-assets>
-            <a-asset-item id="stgic" src="/stgi_c__mixed_v1.glb"></a-asset-item>
-        </a-assets>
-        <a-entity id="stgic-entity"></a-entity>
+  <a-scene raycaster="objects: .clickable" removecursorwheninvr cursor="rayOrigin: mouse"
+    renderer="colorManagement: true;" background="color: #ECECEC">
+    <a-assets>
+      <a-asset-item id="stgic" src="/stgi_c__mixed_v1.glb"></a-asset-item>
+    </a-assets>
+    <a-entity id="stgic-entity"></a-entity>
 
-        <!-- ENVIRONNEMENT DE TEST EN ATTENDANT LE BATIMENT -->
+    <!-- ENVIRONNEMENT DE TEST EN ATTENDANT LE BATIMENT -->
 
-        <!-- Plafond -->
-        <a-plane static-body position="-0.62674 6.967 -4.46685" rotation="90 0 0" width="35.99" height="36.95"
-            color="#ffffff" material="shader: flat;"></a-plane>
+    <!-- Plafond -->
+    <a-plane static-body position="-0.62674 6.967 -4.46685" rotation="90 0 0" width="35.99" height="36.95"
+      color="#ffffff" material="shader: flat;"></a-plane>
 
-        <!-- Sol -->
-        <a-plane static-body position="-0.62674 -0.1 -4.46685" rotation="-90 0 0" width="35.99" height="36.95"
-            color="#999999" shadow></a-plane>
+    <!-- Sol -->
+    <a-plane static-body position="-0.62674 -0.1 -4.46685" rotation="-90 0 0" width="35.99" height="36.95"
+      color="#999999" shadow></a-plane>
 
-        <!-- Murs -->
-<!--        <a-box static-body position="16.61 3.5 -4.57041" geometry="height: 8; width: 37.27" rotation="0 90 0"></a-box>-->
-<!--        <a-box static-body position="-17.857 3.5 -4.35469" geometry="height: 8; width: 37.19" rotation="0 90 0"></a-box>-->
-<!--        <a-box static-body position="-0.43974 3.5 7.604" geometry="height: 8; width: 35.52"></a-box>-->
-<!--        <a-box static-body position="-0.4882 3.5 -22.5" geometry="height: 8; width: 35.59"></a-box>-->
+    <!-- Murs -->
+    <!--        <a-box static-body position="16.61 3.5 -4.57041" geometry="height: 8; width: 37.27" rotation="0 90 0"></a-box>-->
+    <!--        <a-box static-body position="-17.857 3.5 -4.35469" geometry="height: 8; width: 37.19" rotation="0 90 0"></a-box>-->
+    <!--        <a-box static-body position="-0.43974 3.5 7.604" geometry="height: 8; width: 35.52"></a-box>-->
+    <!--        <a-box static-body position="-0.4882 3.5 -22.5" geometry="height: 8; width: 35.59"></a-box>-->
 
-<!--        <a-box static-body position="9 1.298195 0" geometry="height: 2.59639; width: 1"></a-box>-->
-<!--        <a-box static-body position="8 1 0" geometry="height: 2; width: 1"></a-box>-->
-<!--        <a-box static-body position="7 .5 0" geometry="height: 1; width: 1"></a-box>-->
+    <!--        <a-box static-body position="9 1.298195 0" geometry="height: 2.59639; width: 1"></a-box>-->
+    <!--        <a-box static-body position="8 1 0" geometry="height: 2; width: 1"></a-box>-->
+    <!--        <a-box static-body position="7 .5 0" geometry="height: 1; width: 1"></a-box>-->
 
-        <a-entity light="type: ambient; intensity: 0.35;"></a-entity>
-        <a-entity light="type: ambient; intensity: 0.35;"></a-entity>
-        <a-entity light="type: directional;
+    <a-entity light="type: ambient; intensity: 0.35;"></a-entity>
+    <a-entity light="type: ambient; intensity: 0.35;"></a-entity>
+    <a-entity light="type: directional;
                              castShadow: true;
                              intensity: 0.25;" position="-5 3 1.5"></a-entity>
 
-        <!-- FIN ENVIRONNEMENT DE TEST -->
+    <!-- FIN ENVIRONNEMENT DE TEST -->
 
-        <!-- Caméra -->
-        <a-entity id="joueur" kinema-body="radius: 0.4;" movement-controls="fly: false" position="-3.357 -0.1 7.255">
-            <a-entity camera position="0 1.6 0" look-controls="mouseEnabled: true"></a-entity>
-        </a-entity>
+    <!-- Caméra -->
+    <a-entity id="joueur" kinema-body="radius: 0.4;" movement-controls="fly: false" position="-3.357 -0.1 7.255">
+      <a-entity camera position="0 1.6 0" look-controls="mouseEnabled: true"></a-entity>
+    </a-entity>
 
-        <!-- Souvenir statique de test -->
-        <!-- <a-entity souvenir id="sphere" geometry="primitive: sphere; radius: 0.25"
+    <!-- Souvenir statique de test -->
+    <!-- <a-entity souvenir id="sphere" geometry="primitive: sphere; radius: 0.25"
                 material="color: #99BF1C; shader: flat"
                 position="7 2 0"
                 light="type: point; intensity: 0.075"
                 class="clickable"
               ></a-entity> -->
-    </a-scene>
-    <!-- <button @click="checkConnecte" class="addSouvenirBouton" v-if="placerSouvenir == false">+</button>-->
-    <button class="addSouvenirBouton" v-if="placerSouvenir == false && userCo.idUser != 0"
-        @click="placerSouvenir = true">+</button>
+  </a-scene>
+  <!-- <button @click="checkConnecte" class="addSouvenirBouton" v-if="placerSouvenir == false">+</button>-->
+  <button class="addSouvenirBouton" v-if="placerSouvenir == false && userCo.idUser != 0"
+    @click="placerSouvenir = true">+</button>
 
-    <div class="placerSouvenir" v-if="placerSouvenir">
-        <div class="enTete">
-            <p>Placez le point à l'endroit de votre choix.</p>
-        </div>
-        <span class="bulle"></span>
-        <button class="publierBtn" @click="addSouvenirPopup = true; placerSouvenir = false">Valider</button>
-        <button class="annulerBtn" @click="placerSouvenir = false">Annuler</button>
+  <div class="placerSouvenir" v-if="placerSouvenir">
+    <div class="enTete">
+      <p>Placez le point à l'endroit de votre choix.</p>
     </div>
+    <span class="bulle"></span>
+    <button class="publierBtn" @click="addSouvenirPopup = true; placerSouvenir = false">Valider</button>
+    <button class="annulerBtn" @click="placerSouvenir = false">Annuler</button>
+  </div>
 
-    <div class="bg2" v-if="addSouvenirPopup">
-        <div class="add-souvenir" v-bind:class="{ ajouterUnDoc: ajouterUnDoc }">
-            <span class="fermer" @click="resetInfos(); addSouvenirPopup = false"></span>
-            <div class="haut">
-                <img :src="'http://localhost/exp-lorepsm/backend/documentsUGC/profilePicUsers/' + userCo.photoProfil" :alt="userCo.nom">
-                <div class="hautInfos">
-                    <textarea v-model="souvenirAjout.textPost" rows="8" cols="80"
-                        placeholder="Quel souvenir partager ? La pièce jointe doit être une photo."
-                        required v-bind:class="{ texteImage: !ajouterUnDoc }"></textarea>
-                    <input v-model="souvenirAjout.date" type="date" required class="dateSouvenir">
-                </div>
-            </div>
-            <img :src="imageData" :alt="imageData" class="preview" v-if="imageJointe == true">
-            <iframe :src="videoData" v-if="urlJoint" allowfullscreen></iframe>
-            <div class="bas" v-bind:class="{ basImage: !imageJointe, basURL: urlJoint }">
-                <p @click="ajouterUnDoc = true" v-bind:class="{ invisible: ajouterUnDoc }" class="fleche"><span>Ajouter un
-                        document</span></p>
-                <p @click="supprimerDocument" v-bind:class="{ visibilite: !pieceJointe }" class="fleche"><span>Supprimer
-                        le document</span></p>
-                <button @click="chargementInfosSouvenir">Publier</button>
-            </div>
-            <div class="pieceJointe" v-if="ajouterUnDoc">
-                <input type="file" @change="previewDocument"
-                    :accept="'.png,.jpg,.jpeg' + ((!utilisateur.admin) ? ',.mp3,.wav,.ogg' : '')" ref="fichier">
-                <div>
-                    <p>Ou</p>
-                    <label for="url">URL pour une vidéo</label>
-                    <input @change="ajoutURL" ref="champUrl" type="url" name="url" id="url">
-                </div>
-            </div>
+  <div class="bg2" v-if="addSouvenirPopup">
+    <div class="add-souvenir" v-bind:class="{ ajouterUnDoc: ajouterUnDoc }">
+      <span class="fermer" @click="resetInfos(); addSouvenirPopup = false"></span>
+      <div class="haut">
+        <img :src="'http://localhost/exp-lorepsm/backend/documentsUGC/profilePicUsers/' + userCo.photoProfil"
+          :alt="userCo.nom">
+        <div class="hautInfos">
+          <textarea v-model="souvenirAjout.textPost" rows="8" cols="80"
+            placeholder="Quel souvenir partager ? La pièce jointe doit être une photo." required
+            v-bind:class="{ texteImage: !ajouterUnDoc }"></textarea>
+          <input v-model="souvenirAjout.dateSvn" type="date" required class="dateSouvenir">
         </div>
+      </div>
+      <img :src="imageData" :alt="imageData" class="preview" v-if="imageJointe == true">
+      <iframe :src="videoData" v-if="urlJoint" allowfullscreen></iframe>
+      <div class="bas" v-bind:class="{ basImage: !imageJointe, basURL: urlJoint }">
+        <p @click="ajouterUnDoc = true" v-bind:class="{ invisible: ajouterUnDoc }" class="fleche"><span>Ajouter un
+            document</span></p>
+        <p @click="supprimerDocument" v-bind:class="{ visibilite: !pieceJointe }" class="fleche"><span>Supprimer
+            le document</span></p>
+        <button @click="ajoutSouvenir()">Publier</button>
+      </div>
+      <div class="pieceJointe" v-if="ajouterUnDoc">
+        <input type="file" @change="previewDocument"
+          :accept="'.png,.jpg,.jpeg' + ((!utilisateur.admin) ? ',.mp3,.wav,.ogg' : '')" ref="fichier">
+        <div>
+          <p>Ou</p>
+          <label for="url">URL pour une vidéo</label>
+          <input @change="ajoutURL" ref="champUrl" type="url" name="url" id="url">
+        </div>
+      </div>
     </div>
+  </div>
 
-    <Souvenir v-show="souvenir.open" @fermersouvenir="souvenir.open = false" :idSouvenir="souvenir.idClicked" />
+  <Souvenir v-show="souvenir.open" @fermersouvenir="souvenir.open = false" :idSouvenir="souvenir.idClicked" />
 </template>
 
 <style>
 a-scene {
-    width: 100%;
-    height: 100vh;
+  width: 100%;
+  height: 100vh;
 }
 </style>
 <script setup>
@@ -120,42 +121,107 @@ let placerSouvenir = ref(false);
 let addSouvenirPopup = ref(false);
 //let lstSouvenirs = {};
 let souvenirAjout = reactive({
-    coords: "",
-    dateSvn: "",
-    lesDocuments: [
-        {
-            typeDoc: "",
-            nomDoc: ""
-        }
-    ],
-    textPost: "",
+  coords: "",
+  dateSvn: "",
+  lesDocuments: [
+    {
+      typeDoc: "",
+      nomDoc: ""
+    }
+  ],
+  textPost: "",
 });
 
 //Placer les souvenirs
 function addSpot(spot) {
-    console.log("Spot : ", spot);
-    const coords = spot.coordsPost.split(';');
+  console.log("Spot : ", spot);
+  const coords = spot.coordsPost.split(';');
 
-    var sceneEl = document.querySelector('a-scene');
-    var entityEl = document.createElement('a-entity');
-    entityEl.setAttribute('geometry', {
-        primitive: 'sphere',
-        radius: 0.15
-    });
-    entityEl.setAttribute('material', {
-        color: '#99BF1C',
-        shader: "flat"
-    });
-    // entityEl.setAttribute('light', {
-    //     type: 'point',
-    //     intensity: "0.075"
-    // });
-    entityEl.setAttribute('position', { x: coords[0], y: coords[1], z: coords[2] });
-    entityEl.setAttribute('class', 'clickable');
-    entityEl.setAttribute('souvenir', '');
-    entityEl.setAttribute('id', spot.idPost);
+  var sceneEl = document.querySelector('a-scene');
+  var entityEl = document.createElement('a-entity');
+  entityEl.setAttribute('geometry', {
+    primitive: 'sphere',
+    radius: 0.15
+  });
+  entityEl.setAttribute('material', {
+    color: '#99BF1C',
+    shader: "flat"
+  });
+  // entityEl.setAttribute('light', {
+  //     type: 'point',
+  //     intensity: "0.075"
+  // });
+  entityEl.setAttribute('position', { x: coords[0], y: coords[1], z: coords[2] });
+  entityEl.setAttribute('class', 'clickable');
+  entityEl.setAttribute('souvenir', '');
+  entityEl.setAttribute('id', spot.idPost);
 
-    sceneEl.appendChild(entityEl);
+  sceneEl.appendChild(entityEl);
+}
+
+//Ajout d'un souvenir
+function ajoutSouvenir() {
+  if (userCo.value.idUser != 0) {
+    const params = new FormData();
+
+    if (this.souvenir.contenu !== '') {
+      params.append('typePost', 0);
+      params.append('idAuteur', userCo.value.idUser);
+      params.append('textPost', souvenirAjout.textPost);
+      params.append('dateSvn', souvenirAjout.dateSvn);
+      souvenirAjout.coords = "2;0;0.5"
+      params.append('coordsSvn', souvenirAjout.coords);
+
+      //Gestion du format de la date
+      var d = new Date();
+      var date = d.getFullYear() + "-" + (d.getMonth() + 1).toString().padStart(2, '0') + "-" + d.getDate().toString().padStart(2, '0')
+      params.append('datePost', date);
+
+      // if (this.$refs.fichier.files[0]) {
+      //   params.append('docSVN', this.$refs.fichier.files[0]);
+      // } else if (this.$refs.champUrl.value !== '') {
+      //   params.append('docSVN', this.$refs.champUrl.value);
+      // }
+
+      // if (this.imageJointe) {
+      //   params.append('docSVN', this.$refs.fichier.files[0]);
+      // } else if (this.urlJoint) {
+      //   params.append('docSVN', this.$refs.champUrl.value);
+      // } else {
+      // }
+      for (const pair of params.entries()) {
+        console.log(`${pair[0]}, ${pair[1]}`);
+      }
+      axios.post(param.host + '/api/post/createPost.php', params).then((promise) => {
+        console.log(promise);
+      });
+
+      // ajaxService.maj("createPost", params)
+      //   .then(promise => {
+      //     this.resetInfos();
+
+      //     let yawVrai = null;
+      //     let pitchVrai = null;
+
+      //     // Les points ne peuvent pas faire partie d'un paramètre d'URL
+      //     // On remplacera les "u" par des points une fois dans la visite
+
+      //     let yawVeritable = this.coordsActuelles.yawActuel.toString();
+      //     if (yawVeritable.includes('.')) yawVrai = yawVeritable.split('.')[0] + "u" + yawVeritable.split('.')[1];
+      //     else yawVrai = yawVeritable;
+
+      //     let pitchVeritable = this.coordsActuelles.pitchActuel.toString();
+      //     if (pitchVeritable.includes('.')) pitchVrai = pitchVeritable.split('.')[0] + "u" + pitchVeritable.split('.')[1];
+      //     else pitchVrai = pitchVeritable;
+
+      //     this.initVisiteBool = true;
+
+      //     this.$router.push('/Visite?ref=' + this.idSceneActuelle + "&yaw=" + yawVrai + "&pitch=" + pitchVrai)
+
+
+      //   }).catch(error => console.log(error))
+    }
+  }
 }
 
 //Si on cancel l'ajout de souvenir
@@ -164,55 +230,56 @@ function resetInfos() {
 }
 
 onMounted(() => {
-    //Pour charger un modèle
-    document.querySelector("#stgic-entity").setAttribute("gltf-model", "#stgic");
+  //Pour charger un modèle
+  document.querySelector("#stgic-entity").setAttribute("gltf-model", "#stgic");
 
-    //Charger la liste des souvenirs
-    axios.get(param.host + '/api/post/getPostsList.php').then((list) => {
-        //lstSouvenirs = list;
+  //Charger la liste des souvenirs
+  axios.get(param.host + '/api/post/getPostsList.php').then((list) => {
+    //lstSouvenirs = list;
 
-        list.data.forEach(p => {
-            //console.log('Post : ', p);
-            addSpot(p);
-        });
-        //console.log("Lst souvenir :", lstSouvenirs);
+    list.data.forEach(p => {
+      //console.log('Post : ', p);
+      addSpot(p);
     });
+    //console.log("Lst souvenir :", lstSouvenirs);
+  });
 });
 
 //===A-frame===//
 AFRAME.registerComponent("souvenir", {
-    init: function () {
-        const el = this.el;
+  init: function () {
+    const el = this.el;
 
-        //Clique sur le souvenir
-        el.addEventListener("click", function () {
-            console.log('Souvenir cliqué !');
-            souvenir.idClicked = el.getAttribute('id');
-            souvenir.open = true;
-        });
-    }
+    //Clique sur le souvenir
+    el.addEventListener("click", function () {
+      console.log('Souvenir cliqué !');
+      souvenir.idClicked = el.getAttribute('id');
+      souvenir.open = true;
+    });
+  }
 });
 
 </script>
 <style scoped>
 @-ms-viewport {
-    width: device-width;
+  width: device-width;
 }
 
 /*Ajout souvenir popup*/
 .addSouvenirBouton {
-    background-color: var(--lightGreen);
-    border-radius: 50%;
-    border: none;
-    position: absolute;
-    right: 5%;
-    bottom: 5%;
-    color: #EEEDEC;
-    width: 5.8rem;
-    height: 5.8rem;
-    font-size: 5rem;
-    cursor: pointer;
+  background-color: var(--lightGreen);
+  border-radius: 50%;
+  border: none;
+  position: absolute;
+  right: 5%;
+  bottom: 5%;
+  color: #EEEDEC;
+  width: 5.8rem;
+  height: 5.8rem;
+  font-size: 5rem;
+  cursor: pointer;
 }
+
 .fleche>span {
   width: max-content;
   background: linear-gradient(var(--darkGreen), var(--darkGreen));
@@ -263,6 +330,7 @@ AFRAME.registerComponent("souvenir", {
   top: 5%;
   cursor: pointer;
 }
+
 .bg2 {
   position: fixed;
   top: 0;
@@ -275,6 +343,7 @@ AFRAME.registerComponent("souvenir", {
   justify-content: center;
   align-items: center;
 }
+
 .haut p:first-of-type {
   color: #756464;
 }
@@ -404,125 +473,125 @@ iframe {
 
 /* Popup placer souvenir */
 .bulle {
-    height: 3.5rem;
-    width: 3.5rem;
-    background-color: var(--lightGreen);
-    border-radius: 50%;
-    display: inline-block;
-    cursor: pointer;
-    opacity: 0.6;
+  height: 3.5rem;
+  width: 3.5rem;
+  background-color: var(--lightGreen);
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  opacity: 0.6;
 }
 
 .placerSouvenir {
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .placerSouvenir button {
-    border: none;
-    font-size: 1.8rem;
-    padding: 1.5rem 4rem;
-    text-align: center;
-    border-radius: 4rem;
-    width: 16rem;
-    color: #EEEDEC;
-    cursor: pointer;
-    position: absolute;
-    bottom: 5%;
+  border: none;
+  font-size: 1.8rem;
+  padding: 1.5rem 4rem;
+  text-align: center;
+  border-radius: 4rem;
+  width: 16rem;
+  color: #EEEDEC;
+  cursor: pointer;
+  position: absolute;
+  bottom: 5%;
 }
 
 .publierBtn {
-    right: 5%;
-    background-color: var(--lightGreen);
+  right: 5%;
+  background-color: var(--lightGreen);
 
 }
 
 .annulerBtn {
-    left: 5%;
-    background-color: #FE4154;
+  left: 5%;
+  background-color: #FE4154;
 }
 
 .enTete {
-    position: fixed;
-    left: 0;
-    top: 4.5rem;
-    width: 100vw;
-    height: 12rem;
-    background-color: #EEEDEC;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 3;
+  position: fixed;
+  left: 0;
+  top: 4.5rem;
+  width: 100vw;
+  height: 12rem;
+  background-color: #EEEDEC;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
 }
 
 .enTete p {
-    font-size: 2.4rem;
+  font-size: 2.4rem;
 }
 
 /*Responsive popup*/
 /* Smartphone */
 @media only screen and (max-width: 480px) {
-    .add-souvenir {
-        width: 100%;
-        height: 85%;
-        margin-top: 35%;
-        padding-top: 4rem;
-        padding-left: 2rem;
-        padding-right: 2rem;
-        overflow-y: scroll;
-    }
+  .add-souvenir {
+    width: 100%;
+    height: 85%;
+    margin-top: 35%;
+    padding-top: 4rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    overflow-y: scroll;
+  }
 
-    .hautInfos {
-        width: 100%;
-    }
+  .hautInfos {
+    width: 100%;
+  }
 
-    .add-souvenir textarea {
-        width: 100%;
-    }
+  .add-souvenir textarea {
+    width: 100%;
+  }
 
-    .bas {
-        flex-direction: column;
-    }
+  .bas {
+    flex-direction: column;
+  }
 
-    .add-souvenir button {
-        position: static;
-        width: 100%;
-    }
+  .add-souvenir button {
+    position: static;
+    width: 100%;
+  }
 
-    .fleche {
-        margin-left: -35%;
-        margin-bottom: 4rem;
-    }
+  .fleche {
+    margin-left: -35%;
+    margin-bottom: 4rem;
+  }
 
-    .pieceJointe {
-        margin-bottom: 5rem;
-    }
+  .pieceJointe {
+    margin-bottom: 5rem;
+  }
 
-    .texteImage {
-        height: 15rem;
-    }
+  .texteImage {
+    height: 15rem;
+  }
 
-    .visibilite {
-        display: none;
-    }
+  .visibilite {
+    display: none;
+  }
 
-    .add-souvenir input:not([type="file"]) {
-        margin-top: 1rem;
-    }
+  .add-souvenir input:not([type="file"]) {
+    margin-top: 1rem;
+  }
 
-    audio {
-        width: 25rem;
-    }
+  audio {
+    width: 25rem;
+  }
 
-    .enTete {
-        padding: 2rem;
-        text-align: center;
-    }
+  .enTete {
+    padding: 2rem;
+    text-align: center;
+  }
 
 }
 </style>

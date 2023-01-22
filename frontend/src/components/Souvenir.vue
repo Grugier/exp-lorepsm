@@ -9,9 +9,9 @@
             <div class="souvenir">
                 <div class="contenuSouvenir">
                     <div class="entete-souvenir">
-                        <img :src="(getAuteur.photoProfil !== null) ? param.URL_userPictures + getAuteur.photoProfil : 'https://dam.malt.com/zd82z90rq7y4lkld76cz?gravity=face&func=face&face_margin=60&w=440&h=440&force_format=webp'"
-                            :alt="getAuteur.nom">
-                        <p class="nom">{{ getAuteur.prenom }} {{ getAuteur.nom }}</p>
+                        <img :src="(getAuteur().photoProfil !== null) ? param.URL_userPictures + getAuteur().photoProfil : 'https://dam.malt.com/zd82z90rq7y4lkld76cz?gravity=face&func=face&face_margin=60&w=440&h=440&force_format=webp'"
+                            :alt="getAuteur().nom">
+                        <p class="nom">{{ getAuteur().prenom }} {{ getAuteur().nom }}</p>
                     </div>
                     <div class="corp-souvenir">
                         <div class="interagir">
@@ -24,13 +24,13 @@
                         <div class="contenu-souvenir">
                             <p v-if="souvenir.dateSvn">Le {{ getDate(souvenir.dateSvn) }} : </p>
                             <p class="texteSouvenir">{{ souvenir.textPost }}</p>
-                            <img :src="param.URL_userDocuments + souvenir.lesDocuments[0].nomDoc" :alt="getAuteur.nom"
+                            <img :src="param.URL_userDocuments + souvenir.lesDocuments[0].nomDoc" :alt="getAuteur().nom"
                                 class="preview" v-if="souvenir.lesDocuments[0] && souvenir.lesDocuments[0].typeDoc == 0"
                                 @click="zoomImage = !zoomImage">
                             <div class="zoom" v-if="zoomImage">
                                 <span class="fermerZoom" @click="zoomImage = false"></span>
                                 <img :src="param.URL_userDocuments + souvenir.lesDocuments[0].nomDoc"
-                                    :alt="getAuteur.nom" @click="zoomImage = !zoomImage">
+                                    :alt="getAuteur().nom" @click="zoomImage = !zoomImage">
                             </div>
                             <iframe :src="getLienVideo(souvenir.lesDocuments[0].nomDoc)"
                                 v-if="souvenir.lesDocuments[0] && souvenir.lesDocuments[0].typeDoc == 2 && souvenir.lesDocuments[0].nomDoc.includes('youtu')"
@@ -46,8 +46,8 @@
                     <Commentaire v-for="commentaire in souvenir.lesCommentaires" :commentaire="commentaire"
                         :lAuteur="getAuteurCom(commentaire)" />
                 </div>
-                <!-- <button v-show="((utilisateur.id !== 0) && (!utilisateur.admin) && (utilisateur.id != 73))"
-                    @click="commenter = true">Commenter...</button> -->
+                <button v-show="userCo.idUser != 0"
+                    @click="commenter = true">Commenter...</button>
             </div>
         </div>
 
@@ -75,18 +75,24 @@
         <ModifierSouvenir :idSouvenir="souvenir.parent.idPost" v-on:fermer="modifier = false" v-on:reload="getPost"
             v-if="modifier" />
         <SupprimerSouvenir :idSouvenir="souvenir.parent.idPost" v-on:fermer="supprimer = false" v-on:reload="getPost"
-            v-if="supprimer" />
-        <AjoutCommentaire :idSouvenir="souvenir.parent.idPost" :utilisateur="utilisateur" v-if="commenter"
-            v-on:fermer="updateVuePost" /> -->
-
+            v-if="supprimer" /> -->
+        <AjoutCommentaire :souvenir="souvenir" :lAuteur="getAuteur()" :utilisateur="userCo" v-if="commenter"
+        @fermerajoutcom="commenter = false; fermetureCom();" />
     </div>
 </template>
 
 <script setup>
-import { reactive, ref, computed, watch, getCurrentInstance } from 'vue';
+import { reactive, ref, watch, getCurrentInstance } from 'vue';
 import axios from 'axios'
 import param from "@/param/param";
 import Commentaire from '../components/Commentaire.vue'
+import AjoutCommentaire from '../components/AjoutCommentaire.vue'
+import { useExploreStore } from "@/stores/exploreStore";
+import { storeToRefs } from 'pinia';
+
+// On crée une instance du store de l'application
+const store = useExploreStore();
+const { userCo } = storeToRefs(store);
 
 let souvenir = reactive({
     coords: "",
@@ -126,6 +132,7 @@ let auteurs = reactive({
 
 //Popup
 const zoomImage = ref(false);
+const commenter = ref(false);
 
 const instance = getCurrentInstance();
 const props = defineProps({
@@ -133,9 +140,9 @@ const props = defineProps({
 });
 
 //Computed pour avoir les infos de l'auteur d'un souvenir
-const getAuteur = computed(() => {
+function getAuteur() {
     return auteurs.listAuteurs.find((a) => a.idUser == souvenir.lAuteur)
-});
+}
 
 //Fonction pour avoir les infos de l'auteur d'un commentaire
 function getAuteurCom(com) {
@@ -201,6 +208,12 @@ function getLienVideo(url) {
     } else {
         return
     }
+}
+
+//Quand on viens d'ajouter un commentaire -> refresh le composant pour le voir
+function fermetureCom() {
+    clearSouvenir();
+    loadSouvenir(props.idSouvenir);
 }
 
 //Surveiller le clique sur un souvenir
@@ -344,7 +357,7 @@ button {
     padding: 1.4rem 11rem;
     text-align: center;
     border-radius: 4rem;
-    background-color: #E59845;
+    background-color: var(--lightGreen);
     color: #EEEDEC;
     margin-top: 1.5rem;
     cursor: pointer;
