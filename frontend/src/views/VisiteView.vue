@@ -140,7 +140,7 @@ function addSpot(spot) {
     var entityEl = document.createElement('a-entity');
     entityEl.setAttribute('geometry', {
         primitive: 'sphere',
-        radius: 0.25
+        radius: 0.15
     });
     entityEl.setAttribute('material', {
         color: '#99BF1C',

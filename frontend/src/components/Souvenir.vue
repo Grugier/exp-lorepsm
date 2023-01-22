@@ -12,8 +12,6 @@
                         <img :src="(getAuteur.photoProfil !== null) ? param.URL_userPictures + getAuteur.photoProfil : 'https://dam.malt.com/zd82z90rq7y4lkld76cz?gravity=face&func=face&face_margin=60&w=440&h=440&force_format=webp'"
                             :alt="getAuteur.nom">
                         <p class="nom">{{ getAuteur.prenom }} {{ getAuteur.nom }}</p>
-                        <p>- Promo {{ getAuteur.promo }}</p>
-
                     </div>
                     <div class="corp-souvenir">
                         <div class="interagir">

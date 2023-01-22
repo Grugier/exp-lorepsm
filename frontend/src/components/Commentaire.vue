@@ -8,7 +8,6 @@
                     <img :src="(props.lAuteur.photoProfil !== null) ? param.URL_userPictures + props.lAuteur.photoProfil : 'https://phgarin.files.wordpress.com/2015/01/ca_m_agace.png'"
                         :alt="props.lAuteur.nom">
                     <p class="nom">{{ props.lAuteur.prenom }} {{ props.lAuteur.nom }}</p>
-                    <p>- Promo {{ props.lAuteur.promo }}</p>
                 </div>
                 <div class="corp-com">
                     <div class="interagir">

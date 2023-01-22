@@ -8,7 +8,6 @@
                         :alt="userCo.nom">
                     <div class="infosUtilisateur">
                         <h2>{{ userCo.prenom }} {{ userCo.nom }}</h2>
-                        <p>Promo {{ userCo.promo }}</p>
                         <div class="deco" @click="deconnexion">
                             <span class="deconnexion"></span>
                             <p>Déconnexion</p>
