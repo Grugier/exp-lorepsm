@@ -36,7 +36,7 @@
 
     <!-- Caméra -->
     <a-entity id="joueur" kinema-body="radius: 0.4;" movement-controls="fly: false" position="-3.357 -0.1 7.255">
-      <a-entity camera position="0 1.6 0" look-controls="mouseEnabled: true"></a-entity>
+      <a-entity camera position="0 1.6 0" look-controls="mouseEnabled: true" id="camera"></a-entity>
     </a-entity>
 
     <!-- Souvenir statique de test -->
@@ -49,15 +49,16 @@
   </a-scene>
   <!-- <button @click="checkConnecte" class="addSouvenirBouton" v-if="placerSouvenir == false">+</button>-->
   <button class="addSouvenirBouton" v-if="placerSouvenir == false && userCo.idUser != 0"
-    @click="placerSouvenir = true">+</button>
+    @click="placerSouvenir = true; addPlacementSphere();">+</button>
 
   <div class="placerSouvenir" v-if="placerSouvenir">
     <div class="enTete">
       <p>Placez le point à l'endroit de votre choix.</p>
     </div>
     <span class="bulle"></span>
-    <button class="publierBtn" @click="addSouvenirPopup = true; placerSouvenir = false">Valider</button>
-    <button class="annulerBtn" @click="placerSouvenir = false">Annuler</button>
+    <button class="publierBtn"
+      @click="addSouvenirPopup = true; placerSouvenir = false; removePlacementSphere();">Valider</button>
+    <button class="annulerBtn" @click="placerSouvenir = false; removePlacementSphere();">Annuler</button>
   </div>
 
   <div class="bg2" v-if="addSouvenirPopup">
@@ -80,7 +81,7 @@
             document</span></p>
         <p @click="supprimerDocument" v-bind:class="{ visibilite: !pieceJointe }" class="fleche"><span>Supprimer
             le document</span></p>
-        <button @click="ajoutSouvenir()">Publier</button>
+        <button @click="ajoutSouvenir(); addSouvenirPopup = false;">Publier</button>
       </div>
       <div class="pieceJointe" v-if="ajouterUnDoc">
         <input type="file" @change="previewDocument"
@@ -134,11 +135,10 @@ let souvenirAjout = reactive({
 
 //Placer les souvenirs
 function addSpot(spot) {
-  console.log("Spot : ", spot);
   const coords = spot.coordsPost.split(';');
 
-  var sceneEl = document.querySelector('a-scene');
-  var entityEl = document.createElement('a-entity');
+  const sceneEl = document.querySelector('a-scene');
+  const entityEl = document.createElement('a-entity');
   entityEl.setAttribute('geometry', {
     primitive: 'sphere',
     radius: 0.15
@@ -147,10 +147,6 @@ function addSpot(spot) {
     color: '#99BF1C',
     shader: "flat"
   });
-  // entityEl.setAttribute('light', {
-  //     type: 'point',
-  //     intensity: "0.075"
-  // });
   entityEl.setAttribute('position', { x: coords[0], y: coords[1], z: coords[2] });
   entityEl.setAttribute('class', 'clickable');
   entityEl.setAttribute('souvenir', '');
@@ -169,7 +165,6 @@ function ajoutSouvenir() {
       params.append('idAuteur', userCo.value.idUser);
       params.append('textPost', souvenirAjout.textPost);
       params.append('dateSvn', souvenirAjout.dateSvn);
-      souvenirAjout.coords = "2;0;0.5"
       params.append('coordsSvn', souvenirAjout.coords);
 
       //Gestion du format de la date
@@ -194,6 +189,8 @@ function ajoutSouvenir() {
       }
       axios.post(param.host + '/api/post/createPost.php', params).then((promise) => {
         console.log(promise);
+        resetInfos();
+        refreshScene();
       });
 
       // ajaxService.maj("createPost", params)
@@ -226,23 +223,67 @@ function ajoutSouvenir() {
 
 //Si on cancel l'ajout de souvenir
 function resetInfos() {
+  souvenirAjout.coords = "";
+  souvenirAjout.dateSvn = "";
+  souvenirAjout.lesDocuments = [
+    {
+      typeDoc: "",
+      nomDoc: ""
+    }
+  ],
+    souvenirAjout.textPost = "";
+}
 
+//Ajouter sphère placement
+function addPlacementSphere() {
+  const cameraEl = document.querySelector('#camera');
+  const entityEl = document.createElement('a-entity');
+  entityEl.setAttribute('geometry', {
+    primitive: 'sphere',
+    radius: 0.15
+  });
+  entityEl.setAttribute('material', {
+    color: '#99BF1C',
+    shader: "flat",
+    transparent: true,
+    opacity: 0.6
+  });
+  entityEl.setAttribute('position', { x: 0, y: 0, z: -2 });
+
+  cameraEl.appendChild(entityEl);
+}
+
+//Supprimer la sphère de placement
+function removePlacementSphere() {
+  const sphere = document.querySelector('#camera > a-entity');
+  const c = sphere.object3D.getWorldPosition(new THREE.Vector3());
+  const str = c.x + ";" + c.y + ";" + c.z;
+  souvenirAjout.coords = str;
+  sphere.parentNode.removeChild(sphere);
+}
+
+//Charger la liste des souvenirs
+function addAllSpot() {
+  axios.get(param.host + '/api/post/getPostsList.php').then((list) => {
+    list.data.forEach(p => {
+      addSpot(p);
+    });
+  });
+}
+
+//Vider la scène des souvenirs et la recharger
+function refreshScene() {
+  const s = document.querySelectorAll("[souvenir]");
+  s.forEach(function (element) {
+    element.remove();
+  });
+  addAllSpot();
 }
 
 onMounted(() => {
   //Pour charger un modèle
   document.querySelector("#stgic-entity").setAttribute("gltf-model", "#stgic");
-
-  //Charger la liste des souvenirs
-  axios.get(param.host + '/api/post/getPostsList.php').then((list) => {
-    //lstSouvenirs = list;
-
-    list.data.forEach(p => {
-      //console.log('Post : ', p);
-      addSpot(p);
-    });
-    //console.log("Lst souvenir :", lstSouvenirs);
-  });
+  addAllSpot();
 });
 
 //===A-frame===//
