@@ -37,7 +37,7 @@
     <!-- Caméra -->
     <a-entity id="joueur" kinema-body="radius: 0.4;" movement-controls="fly: false; enabled:true;"
       position="-3.357 -0.1 7.255">
-      <a-entity camera position="0 1.6 0" look-controls="mouseEnabled: true; enabled:true;" id="camera"></a-entity>
+      <a-entity camera position="0 1.6 0" look-controls="enabled:true;" id="camera"></a-entity>
     </a-entity>
 
     <!-- Souvenir statique de test -->
@@ -95,7 +95,8 @@
     </div>
   </div>
 
-  <Souvenir v-show="souvenir.open" @fermersouvenir="souvenir.open = false; enabledMovements();" :idSouvenir="souvenir.idClicked" />
+  <Souvenir v-show="souvenir.open" @fermersouvenir="souvenir.open = false; enabledMovements();"
+    :idSouvenir="souvenir.idClicked" />
 </template>
 
 <style>
@@ -130,12 +131,6 @@ let videoData = ref("");
 let souvenirAjout = reactive({
   coords: "",
   dateSvn: "",
-  lesDocuments: [
-    {
-      typeDoc: "",
-      nomDoc: ""
-    }
-  ],
   textPost: "",
 });
 
@@ -157,6 +152,7 @@ function addSpot(spot) {
   entityEl.setAttribute('class', 'clickable');
   entityEl.setAttribute('souvenir', '');
   entityEl.setAttribute('id', spot.idPost);
+  entityEl.addEventListener("click", clickSouvenir);
 
   sceneEl.appendChild(entityEl);
 }
@@ -179,9 +175,10 @@ function ajoutSouvenir() {
       params.append('datePost', date);
 
       if (imageJointe.value) {
-        params.append('docSVN', imageData.value);
+        const input = document.querySelector('#fichier');
+        params.append('docSvn', input.files[0]);
       } else if (urlJoint.value) {
-        params.append('docSVN', videoData.value);
+        params.append('docSvn', videoData.value);
       }
 
       //DEBUG
@@ -205,13 +202,7 @@ function ajoutSouvenir() {
 function resetInfos() {
   souvenirAjout.coords = "";
   souvenirAjout.dateSvn = "";
-  souvenirAjout.lesDocuments = [
-    {
-      typeDoc: "",
-      nomDoc: ""
-    }
-  ],
-    souvenirAjout.textPost = "";
+  souvenirAjout.textPost = "";
   supprimerDocument();
 }
 
@@ -329,25 +320,17 @@ function supprimerDocument() {
     videoData.value = null
 }
 
+function clickSouvenir() {
+  console.log('Souvenir cliqué !');
+  souvenir.idClicked = this.getAttribute('id');
+  souvenir.open = true;
+  disableMovements();
+}
+
 onMounted(() => {
   //Pour charger un modèle
   document.querySelector("#stgic-entity").setAttribute("gltf-model", "#stgic");
   addAllSpot();
-});
-
-//===A-frame===//
-AFRAME.registerComponent("souvenir", {
-  init: function () {
-    const el = this.el;
-
-    //Clique sur le souvenir
-    el.addEventListener("click", function () {
-      console.log('Souvenir cliqué !');
-      souvenir.idClicked = el.getAttribute('id');
-      souvenir.open = true;
-      disableMovements();
-    });
-  }
 });
 
 </script>
