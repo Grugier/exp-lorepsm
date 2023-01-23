@@ -5,21 +5,6 @@ export default {
     host: host,
     localStore: "Exp-lorePSM",
 
-    // infosAppli: {
-    //     utilisateur: {
-    //         id: 0,
-    //         admin: false,
-    //         infos: {
-    //             login: '',
-    //             prenom: '',
-    //             nom: '',
-    //             photo: '',
-    //             annee: '',
-    //             diplome: '',
-    //         }
-    //     }
-    // },
-
     URL_userPictures: host + 'documentsUGC/profilePicUsers/',
     URL_userDocuments : host + 'documentsUGC/souvenirs/',
 
