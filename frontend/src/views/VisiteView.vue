@@ -56,7 +56,6 @@
     <div class="enTete">
       <p>Placez le point à l'endroit de votre choix.</p>
     </div>
-    <span class="bulle"></span>
     <button class="publierBtn"
       @click="addSouvenirPopup = true; placerSouvenir = false; removePlacementSphere(); disableMovements();">Valider</button>
     <button class="annulerBtn" @click="placerSouvenir = false; removePlacementSphere();">Annuler</button>
@@ -540,21 +539,7 @@ iframe {
 
 
 /* Popup placer souvenir */
-.bulle {
-  height: 3.5rem;
-  width: 3.5rem;
-  background-color: var(--lightGreen);
-  border-radius: 50%;
-  display: inline-block;
-  cursor: pointer;
-  opacity: 0.6;
-}
-
 .placerSouvenir {
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
