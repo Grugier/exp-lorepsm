@@ -74,22 +74,21 @@
           <input v-model="souvenirAjout.dateSvn" type="date" required class="dateSouvenir">
         </div>
       </div>
-      <img :src="imageData" :alt="imageData" class="preview" v-if="imageJointe == true">
+      <img :src="imageData" :alt="imageData" class="preview" v-if="imageJointe">
       <iframe :src="videoData" v-if="urlJoint" allowfullscreen></iframe>
       <div class="bas" v-bind:class="{ basImage: !imageJointe, basURL: urlJoint }">
         <p @click="ajouterUnDoc = true" v-bind:class="{ invisible: ajouterUnDoc }" class="fleche"><span>Ajouter un
             document</span></p>
         <p @click="supprimerDocument" v-bind:class="{ visibilite: !pieceJointe }" class="fleche"><span>Supprimer
             le document</span></p>
-        <button @click="ajoutSouvenir(); addSouvenirPopup = false;">Publier</button>
+        <button @click="ajoutSouvenir();">Publier</button>
       </div>
       <div class="pieceJointe" v-if="ajouterUnDoc">
-        <input type="file" @change="previewDocument"
-          :accept="'.png,.jpg,.jpeg' + ((!utilisateur.admin) ? ',.mp3,.wav,.ogg' : '')" ref="fichier">
+        <input type="file" @change="previewDocument();" accept=".png,.jpg,.jpeg" ref="fichier" id="fichier">
         <div>
           <p>Ou</p>
-          <label for="url">URL pour une vidéo</label>
-          <input @change="ajoutURL" ref="champUrl" type="url" name="url" id="url">
+          <label for="url">URL youtube pour une vidéo</label>
+          <input @change="ajoutURL();" ref="champUrl" type="url" name="url" id="url">
         </div>
       </div>
     </div>
@@ -120,7 +119,13 @@ const { userCo } = storeToRefs(store);
 let souvenir = reactive({ open: false, idClicked: null })
 let placerSouvenir = ref(false);
 let addSouvenirPopup = ref(false);
-//let lstSouvenirs = {};
+let urlJoint = ref(false);
+let imageJointe = ref(false);
+let ajouterUnDoc = ref(false);
+let pieceJointe = ref(false);
+let imageData = ref("");
+let videoData = ref("");
+
 let souvenirAjout = reactive({
   coords: "",
   dateSvn: "",
@@ -160,7 +165,7 @@ function ajoutSouvenir() {
   if (userCo.value.idUser != 0) {
     const params = new FormData();
 
-    if (this.souvenir.contenu !== '') {
+    if (souvenirAjout.textPost !== "") {
       params.append('typePost', 0);
       params.append('idAuteur', userCo.value.idUser);
       params.append('textPost', souvenirAjout.textPost);
@@ -172,51 +177,24 @@ function ajoutSouvenir() {
       var date = d.getFullYear() + "-" + (d.getMonth() + 1).toString().padStart(2, '0') + "-" + d.getDate().toString().padStart(2, '0')
       params.append('datePost', date);
 
-      // if (this.$refs.fichier.files[0]) {
-      //   params.append('docSVN', this.$refs.fichier.files[0]);
-      // } else if (this.$refs.champUrl.value !== '') {
-      //   params.append('docSVN', this.$refs.champUrl.value);
-      // }
+      if (imageJointe.value) {
+        params.append('docSVN', imageData.value);
+      } else if (urlJoint.value) {
+        params.append('docSVN', videoData.value);
+      }
 
-      // if (this.imageJointe) {
-      //   params.append('docSVN', this.$refs.fichier.files[0]);
-      // } else if (this.urlJoint) {
-      //   params.append('docSVN', this.$refs.champUrl.value);
-      // } else {
-      // }
+      //DEBUG
       for (const pair of params.entries()) {
         console.log(`${pair[0]}, ${pair[1]}`);
       }
       axios.post(param.host + '/api/post/createPost.php', params).then((promise) => {
         console.log(promise);
+        addSouvenirPopup.value = false;
         resetInfos();
         refreshScene();
       });
-
-      // ajaxService.maj("createPost", params)
-      //   .then(promise => {
-      //     this.resetInfos();
-
-      //     let yawVrai = null;
-      //     let pitchVrai = null;
-
-      //     // Les points ne peuvent pas faire partie d'un paramètre d'URL
-      //     // On remplacera les "u" par des points une fois dans la visite
-
-      //     let yawVeritable = this.coordsActuelles.yawActuel.toString();
-      //     if (yawVeritable.includes('.')) yawVrai = yawVeritable.split('.')[0] + "u" + yawVeritable.split('.')[1];
-      //     else yawVrai = yawVeritable;
-
-      //     let pitchVeritable = this.coordsActuelles.pitchActuel.toString();
-      //     if (pitchVeritable.includes('.')) pitchVrai = pitchVeritable.split('.')[0] + "u" + pitchVeritable.split('.')[1];
-      //     else pitchVrai = pitchVeritable;
-
-      //     this.initVisiteBool = true;
-
-      //     this.$router.push('/Visite?ref=' + this.idSceneActuelle + "&yaw=" + yawVrai + "&pitch=" + pitchVrai)
-
-
-      //   }).catch(error => console.log(error))
+    } else {
+      alert("Contenu textuel vide !");
     }
   }
 }
@@ -232,6 +210,7 @@ function resetInfos() {
     }
   ],
     souvenirAjout.textPost = "";
+  supprimerDocument();
 }
 
 //Ajouter sphère placement
@@ -280,6 +259,56 @@ function refreshScene() {
   addAllSpot();
 }
 
+//Pièces jointes
+function previewDocument() {
+  document.querySelector('#url').value = null;
+  urlJoint.value = false;
+  const input = document.querySelector('#fichier');
+  //Récupération des champs
+  if (input.files && input.files[0]) {
+    if (input.files[0].type == 'image/png' || input.files[0].type == 'image/jpg' || input.files[0].type == 'image/jpeg') {
+      imageJointe.value = true;
+      pieceJointe.value = true;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        imageData.value = e.target.result;
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+}
+
+function ajoutURL() {
+  document.querySelector('#fichier').value = null;
+  imageJointe.value = false;
+  pieceJointe.value = true;
+  urlJoint.value = true;
+
+  /*Preview des vidéos suivant les cas*/
+  const input = document.querySelector('#url');
+  const url = input.value;
+
+  //Seul les vidéo de youtube sont acceptée et il existe 2 formats : l'url direct et le partage
+  if (url.includes("youtube.com")) {
+    videoData.value = url.replace("watch?v=", "embed/");
+  } else if (url.includes("youtu.be")) {
+    let videoId = url.split("/").pop();
+    videoData.value = `https://www.youtube.com/embed/${videoId}`;
+  }
+}
+
+function supprimerDocument() {
+  //On met toutes les variables pour l'affichage à faux
+  pieceJointe.value = false;
+  imageJointe.value = false;
+  urlJoint.value = false;
+  ajouterUnDoc.value = false;
+
+  //On vide les liens des documemnts
+  imageData.value = null,
+  videoData.value = null
+}
+
 onMounted(() => {
   //Pour charger un modèle
   document.querySelector("#stgic-entity").setAttribute("gltf-model", "#stgic");
@@ -323,20 +352,10 @@ AFRAME.registerComponent("souvenir", {
 
 .fleche>span {
   width: max-content;
-  background: linear-gradient(var(--darkGreen), var(--darkGreen));
+  background: linear-gradient(var(--lightGreen), var(--lightGreen));
   background-size: auto .5em;
   background-position: bottom;
   background-repeat: no-repeat;
-  cursor: pointer;
-}
-
-.fleche:after {
-  display: inline-block;
-  content: "";
-  width: 3rem;
-  height: 1.3rem;
-  background: url(../assets/elements-graphiques/fleche.svg) no-repeat;
-  margin-left: 0.4rem;
   cursor: pointer;
 }
 
@@ -439,11 +458,14 @@ textarea {
 .preview {
   height: 10rem;
   width: auto;
+  max-width: 50rem;
   margin-top: 1.5rem;
   margin-left: 7.8rem;
   border-radius: 2rem;
 }
-
+#fichier {
+  width: 13rem;
+}
 iframe {
   width: 15rem;
   height: 10rem;
@@ -496,7 +518,6 @@ iframe {
 .pieceJointe p {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
-  color: black;
 }
 
 .ajouterUnDoc {
@@ -632,6 +653,10 @@ iframe {
   .enTete {
     padding: 2rem;
     text-align: center;
+  }
+
+  .preview {
+    max-width: 30rem;
   }
 
 }
