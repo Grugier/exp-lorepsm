@@ -6,6 +6,8 @@ header("Access-Control-Allow-Origin: *");
 
 require_once '../connexion.php';
 
+require "../../classes/class.LoreUtils.php";
+
 $dossierDocuments = "../../documentsUGC/souvenirs/";
 
 if (
