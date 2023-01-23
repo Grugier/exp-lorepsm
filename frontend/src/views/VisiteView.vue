@@ -65,7 +65,7 @@
     <div class="add-souvenir" v-bind:class="{ ajouterUnDoc: ajouterUnDoc }">
       <span class="fermer" @click="resetInfos(); enabledMovements(); addSouvenirPopup = false"></span>
       <div class="haut">
-        <img :src="'http://localhost/exp-lorepsm/backend/documentsUGC/profilePicUsers/' + userCo.photoProfil"
+        <img :src="(userCo.photoProfil !== null) ? param.URL_userPictures + userCo.photoProfil : '/user-invite.png'"
           :alt="userCo.nom">
         <div class="hautInfos">
           <textarea v-model="souvenirAjout.textPost" rows="8" cols="80"
@@ -81,14 +81,14 @@
             document</span></p>
         <p @click="supprimerDocument" v-bind:class="{ visibilite: !pieceJointe }" class="fleche"><span>Supprimer
             le document</span></p>
-        <button @click="ajoutSouvenir();">Publier</button>
+        <button @click="ajoutSouvenir()">Publier</button>
       </div>
       <div class="pieceJointe" v-if="ajouterUnDoc">
-        <input type="file" @change="previewDocument();" accept=".png,.jpg,.jpeg" ref="fichier" id="fichier">
+        <input type="file" @change="previewDocument()" accept=".png,.jpg,.jpeg" ref="fichier" id="fichier">
         <div>
           <p>Ou</p>
-          <label for="url">URL youtube pour une vidéo</label>
-          <input @change="ajoutURL();" ref="champUrl" type="url" name="url" id="url">
+          <label for="url">URL YouTube pour une vidéo</label>
+          <input @change="ajoutURL()" ref="champUrl" type="url" name="url" id="url">
         </div>
       </div>
     </div>

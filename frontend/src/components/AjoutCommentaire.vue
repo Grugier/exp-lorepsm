@@ -41,7 +41,7 @@ const reponse = ref("");
 function ajoutCommentaire() {
   const params = new FormData();
   params.append('typePost', 1);
-  params.append('idAuteur', props.lAuteur.idUser);
+  params.append('idAuteur', props.utilisateur.idUser);
   params.append('idRefPost', props.souvenir.idPost);
   params.append('textPost', reponse.value);
 

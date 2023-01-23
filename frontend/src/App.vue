@@ -24,7 +24,7 @@
     <RouterLink to="/Profil" class="liensProfil" v-if="userCo.idUser != 0">
       <div class="identite">
         <p>{{ userCo.prenom }}</p>
-        <img :src="'http://localhost/exp-lorepsm/backend/documentsUGC/profilePicUsers/' + userCo.photoProfil" alt="Utilisateur d'Exp-lorePSM">
+        <img :src="userPicturesURL + userCo.photoProfil" alt="Utilisateur d'Exp-lorePSM">
       </div>
     </RouterLink>
 
@@ -60,6 +60,8 @@ export default {
     const store = useExploreStore();
     const { userCo } = storeToRefs(store);
     const router = useRouter();
+
+    const userPicturesURL = param.URL_userPictures;
 
     // Navigation guards
     router.beforeEach(to => {
@@ -249,6 +251,7 @@ export default {
       }
     });
     return {
+      userPicturesURL,
       userCo 
     }
   },

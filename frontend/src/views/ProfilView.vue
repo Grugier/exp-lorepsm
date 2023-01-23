@@ -4,7 +4,7 @@
             <h1>Profil</h1>
             <div class="profil">
                 <div class="profilEnTete flex">
-                    <img :src="'http://localhost/exp-lorepsm/backend/documentsUGC/profilePicUsers/' + userCo.photoProfil"
+                    <img :src="(userCo.photoProfil !== null) ? param.URL_userPictures + userCo.photoProfil : '/user-invite.png'"
                         :alt="userCo.nom">
                     <div class="infosUtilisateur">
                         <h2>{{ userCo.prenom }} {{ userCo.nom }}</h2>
@@ -22,14 +22,39 @@
 <script>
 import { useExploreStore } from "@/stores/exploreStore";
 import { storeToRefs } from 'pinia';
+import { useRouter } from "vue-router";
+
+import param from "@/param/param";
+import appService from '@/services/appService';
+
 
 export default {
     setup() {
         const store = useExploreStore();
         const { userCo } = storeToRefs(store);
 
+        const router = useRouter();
+
+        const deconnexion = function() {
+            appService.removeLocal();
+            resetStoreUserInfo();
+            router.replace("/");
+        };
+
+        function resetStoreUserInfo() {
+            store.userCo.idUser = 0;
+            store.userCo.typeUser = 0;
+            store.userCo.prenom = "";
+            store.userCo.nom = "";
+            store.userCo.photoProfil = null;
+            store.userCo.promo = 0;
+        }
+
+
         return {
-            userCo
+            param,
+            userCo,
+            deconnexion
         }
     },
 
