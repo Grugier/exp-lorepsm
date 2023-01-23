@@ -274,6 +274,13 @@ textarea {
   padding-right: 4rem;
 } */
 
+/*Écraser le style d'A-frame qui met tout html en fixed*/
+.a-fullscreen  {
+  position: unset !important;
+}
+.a-fullscreen body {
+  overflow: auto !important;
+}
 /*===Responsive smartphone===*/
 @media only screen and (max-width: 480px) {
   .identite p {

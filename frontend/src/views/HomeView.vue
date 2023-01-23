@@ -8,7 +8,6 @@
             <router-link to="/Visite" id="visite"><span>Visitez avec nous</span></router-link>
           </div>
         </div>
-        <span id="scroll"></span>
       </div>
       <div id="accueil-droite">
         <span id="model-stgi">Bâtiment STGI C</span>
@@ -88,16 +87,6 @@
   display: block;
   height: 85vh;
   width: 22.8vw;
-}
-
-#scroll {
-  background: url(../assets/landing-page/scroll.svg) no-repeat;
-  background-size: contain;
-  text-indent: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 2rem;
-  height: 3.4rem;
 }
 
 /*Partie présentation*/
@@ -205,12 +194,6 @@ main {
   height: 90.1vh;
 }
 
-#scroll {
-  position: absolute;
-  left: 46vw;
-  bottom: 5vh;
-}
-
 /*Partie présentation*/
 #presentation {
   padding-top: 10vh;
@@ -294,8 +277,7 @@ footer {
 @media only screen and (max-width: 480px) {
 
   #footer-liens>div,
-  #explorepsm,
-  #scroll {
+  #explorepsm {
     display: none;
   }
 

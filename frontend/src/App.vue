@@ -9,7 +9,8 @@
           <RouterLink to="/visite">Visiter depuis le début</RouterLink>
         </li>
         <li>
-          <RouterLink to="/connexion">Se connecter</RouterLink>
+          <RouterLink to="/Profil" v-if="userCo.idUser != 0">Profil</RouterLink>
+          <RouterLink to="/connexion" v-else>Se connecter</RouterLink>
         </li>
       </ul>
     </nav>
