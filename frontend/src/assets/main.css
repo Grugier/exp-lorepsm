@@ -20,7 +20,8 @@ html {
 a,
 p,
 button,
-textarea {
+textarea,
+label {
   font-family: 'Noto Sans', Arial, sans-serif;
 }
 
@@ -39,7 +40,8 @@ a {
 a,
 p,
 h1,
-h2 {
+h2,
+label {
   color: #302A2A;
 }
 
