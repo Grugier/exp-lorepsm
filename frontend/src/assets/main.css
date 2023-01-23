@@ -264,6 +264,10 @@ body {
   display: flex;
 }
 
+textarea {
+  resize: none;
+}
+
 /* main {
   margin-top: 9.5rem;
   padding-left: 4rem;

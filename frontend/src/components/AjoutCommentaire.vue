@@ -5,14 +5,14 @@
         <span class="fermer" @click="$emit('fermerajoutcom')"></span>
         <div class="entete-souvenir">
           <img
-            :src="(props.lAuteur.photoProfil !== null) ? param.URL_userPictures + props.lAuteur.photoProfil : 'https://phgarin.files.wordpress.com/2015/01/ca_m_agace.png'"
+            :src="(props.lAuteur.photoProfil !== null) ? param.URL_userPictures + props.lAuteur.photoProfil : '/user-invite.png'"
             :alt="props.lAuteur.nom">
           <p class="nom">{{ props.lAuteur.prenom }} {{ props.lAuteur.nom }}</p>
         </div>
         <p id="contenu-souvenir">{{ props.souvenir.textPost }}</p>
         <div class="bas-reponse">
           <img
-            :src="(props.utilisateur.photoProfil !== null) ? param.URL_userPictures + props.utilisateur.photoProfil : 'https://phgarin.files.wordpress.com/2015/01/ca_m_agace.png'"
+            :src="(props.utilisateur.photoProfil !== null) ? param.URL_userPictures + props.utilisateur.photoProfil : '/user-invite.png'"
             :alt="props.utilisateur.nom">
           <textarea v-model="reponse" rows="8" cols="80" placeholder="Tapez votre réponse..." required></textarea>
         </div>

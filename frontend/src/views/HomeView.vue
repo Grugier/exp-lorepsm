@@ -35,7 +35,7 @@
         <div>
           <router-link to="/about">À propos</router-link>
           <a href="mailto:contact@loremmi.fr">Nous contacter</a>
-          <a href="../static/Loremmi-CGU.pdf" target="_blank">Mentions légales</a>
+          <a href="/mentions-legales.pdf" target="_blank">Mentions légales</a>
         </div>
         <div></div>
       </div>

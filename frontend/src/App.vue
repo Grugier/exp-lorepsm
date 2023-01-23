@@ -30,8 +30,8 @@
     <RouterLink to="/Connexion" class="liensProfil" v-else>
       <div class="identite">
         <p>Invité</p>
-        <img src="https://www.logolynx.com/images/logolynx/4b/4beebce89d681837ba2f4105ce43afac.png"
-          alt="Utilisateur de LoreMMi">
+        <img src="/user-invite.png"
+          alt="Utilisateur d'Exp-lorePSM">
       </div>
     </RouterLink>
 

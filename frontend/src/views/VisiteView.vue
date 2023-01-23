@@ -35,8 +35,9 @@
     <!-- FIN ENVIRONNEMENT DE TEST -->
 
     <!-- Caméra -->
-    <a-entity id="joueur" kinema-body="radius: 0.4;" movement-controls="fly: false" position="-3.357 -0.1 7.255">
-      <a-entity camera position="0 1.6 0" look-controls="mouseEnabled: true" id="camera"></a-entity>
+    <a-entity id="joueur" kinema-body="radius: 0.4;" movement-controls="fly: false; enabled:true;"
+      position="-3.357 -0.1 7.255">
+      <a-entity camera position="0 1.6 0" look-controls="mouseEnabled: true; enabled:true;" id="camera"></a-entity>
     </a-entity>
 
     <!-- Souvenir statique de test -->
@@ -57,13 +58,13 @@
     </div>
     <span class="bulle"></span>
     <button class="publierBtn"
-      @click="addSouvenirPopup = true; placerSouvenir = false; removePlacementSphere();">Valider</button>
+      @click="addSouvenirPopup = true; placerSouvenir = false; removePlacementSphere(); disableMovements();">Valider</button>
     <button class="annulerBtn" @click="placerSouvenir = false; removePlacementSphere();">Annuler</button>
   </div>
 
   <div class="bg2" v-if="addSouvenirPopup">
     <div class="add-souvenir" v-bind:class="{ ajouterUnDoc: ajouterUnDoc }">
-      <span class="fermer" @click="resetInfos(); addSouvenirPopup = false"></span>
+      <span class="fermer" @click="resetInfos(); enabledMovements(); addSouvenirPopup = false"></span>
       <div class="haut">
         <img :src="'http://localhost/exp-lorepsm/backend/documentsUGC/profilePicUsers/' + userCo.photoProfil"
           :alt="userCo.nom">
@@ -94,7 +95,7 @@
     </div>
   </div>
 
-  <Souvenir v-show="souvenir.open" @fermersouvenir="souvenir.open = false" :idSouvenir="souvenir.idClicked" />
+  <Souvenir v-show="souvenir.open" @fermersouvenir="souvenir.open = false; enabledMovements();" :idSouvenir="souvenir.idClicked" />
 </template>
 
 <style>
@@ -192,6 +193,7 @@ function ajoutSouvenir() {
         addSouvenirPopup.value = false;
         resetInfos();
         refreshScene();
+        enabledMovements();
       });
     } else {
       alert("Contenu textuel vide !");
@@ -239,6 +241,24 @@ function removePlacementSphere() {
   const str = c.x + ";" + c.y + ";" + c.z;
   souvenirAjout.coords = str;
   sphere.parentNode.removeChild(sphere);
+}
+
+function disableMovements() {
+  const playerEl = document.querySelector('#joueur');
+
+  playerEl.setAttribute('movement-controls', {
+    fly: "false",
+    enabled: false
+  });
+}
+
+function enabledMovements() {
+  const playerEl = document.querySelector('#joueur');
+
+  playerEl.setAttribute('movement-controls', {
+    fly: "false",
+    enabled: true
+  });
 }
 
 //Charger la liste des souvenirs
@@ -306,7 +326,7 @@ function supprimerDocument() {
 
   //On vide les liens des documemnts
   imageData.value = null,
-  videoData.value = null
+    videoData.value = null
 }
 
 onMounted(() => {
@@ -325,6 +345,7 @@ AFRAME.registerComponent("souvenir", {
       console.log('Souvenir cliqué !');
       souvenir.idClicked = el.getAttribute('id');
       souvenir.open = true;
+      disableMovements();
     });
   }
 });
@@ -463,9 +484,11 @@ textarea {
   margin-left: 7.8rem;
   border-radius: 2rem;
 }
+
 #fichier {
   width: 13rem;
 }
+
 iframe {
   width: 15rem;
   height: 10rem;
