@@ -128,7 +128,7 @@
   </div>
 
   <Souvenir v-show="souvenir.open" @fermersouvenir="souvenir.open = false; enabledMovements();"
-    :idSouvenir="souvenir.idClicked" />
+    :idSouvenir="souvenir.idClicked" @refresh= "refreshScene();"/>
 </template>
 
 <style>
