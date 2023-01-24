@@ -296,7 +296,7 @@ function supprimerSouvenir() {
     white-space: nowrap;
     max-width: 16rem;
     overflow: hidden;
-    background: linear-gradient(var(--darkGreen), var(--darkGreen));
+    background: linear-gradient(var(--lightGreen), var(--lightGreen));
     background-size: auto .5em;
     background-position: bottom;
     background-repeat: no-repeat;

@@ -150,7 +150,7 @@
 /*Soulignement*/
 #visite>span {
   width: max-content;
-  background: linear-gradient(var(--darkGreen), var(--darkGreen));
+  background: linear-gradient(var(--lightGreen), var(--lightGreen));
   background-size: auto .5em;
   background-position: bottom;
   background-repeat: no-repeat;
@@ -265,7 +265,7 @@ footer {
 /*Liens du footer*/
 #footer-liens a:hover {
   transform: translateX(13rem);
-  color: var(--darkGreen);
+  color: var(--lightGreen);
 }
 
 #footer-liens a {

@@ -120,7 +120,7 @@ h3 {
 
 .deco p {
     margin-bottom: 0;
-    background: linear-gradient(var(--darkGreen), var(--darkGreen));
+    background: linear-gradient(var(--lightGreen), var(--lightGreen));
     background-size: auto .5em;
     background-position: bottom;
     background-repeat: no-repeat;
