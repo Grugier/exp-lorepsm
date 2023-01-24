@@ -2,8 +2,6 @@
     <div class="bg">
         <div class="bloc-souvenir">
             <div class="gestionSouvenir">
-                <!-- <span class="modif" @click="interactions(souvenir.parent)"
-                    v-if="utilisateur.id != 73 && utilisateur.id != 0"></span> -->
                 <span @click="$emit('fermersouvenir')" class="fermer"></span>
             </div>
             <div class="souvenir">
@@ -12,12 +10,12 @@
                         <img :src="(getAuteur().photoProfil !== null) ? param.URL_userPictures + getAuteur().photoProfil : '/user-invite.png'"
                             :alt="getAuteur().nom">
                         <p class="nom">{{ getAuteur().prenom }} {{ getAuteur().nom }}</p>
+                        <div class="suppression" v-if="(userCo.idUser != 0 && sonSouvenir)" @click="supprimer = true;">
+                            <span class="poubelle"></span>
+                        </div>
                     </div>
                     <div class="corp-souvenir">
                         <div class="interagir">
-                            <!-- <span class="coeur" @click="like(souvenir.parent.idPost)"
-                                v-bind:class="{ aimeFull: aime, aime: !aime }"></span>
-                            <p>{{ souvenir.parent.lesJAime.length }}</p> -->
                             <span class="coeur aime"></span>
                             <p>{{ souvenir.lesLike }}</p>
                         </div>
@@ -40,33 +38,11 @@
                     </div>
                 </div>
                 <div class="listeCommentaire">
-                    <!-- <AfficherCommentaires v-for="commentaire in souvenir.lesCommentaires"
-                        v-bind:key="commentaire.idPost" :commentaire="commentaire" v-on:signaler="signalement = true"
-                        v-on:dejasignale="GestionSignaleCom" v-on:rechargement="getPost" :fermeture="fermeture" /> -->
                     <Commentaire v-for="commentaire in souvenir.lesCommentaires" :commentaire="commentaire"
-                        :lAuteur="getAuteurCom(commentaire)" />
+                        :lAuteur="getAuteurCom(commentaire)" :utilisateur="userCo" />
                 </div>
-                <button v-show="userCo.idUser != 0"
-                    @click="commenter = true">Commenter...</button>
+                <button v-show="userCo.idUser != 0" @click="commenter = true">Commenter...</button>
             </div>
-        </div>
-
-        <div class="popupInteractions" v-if="action" v-bind:class="{ popupSignaler: !sonSouvenir }">
-            <!-- <div class="suppression" v-if="(sonSouvenir || utilisateur.admin)"
-                @click="supprimer = true; action = false">
-                <span class="poubelle"></span>
-                <p>Supprimer</p>
-            </div>
-            <div class="modification" @click="modifier = true; action = false"
-                v-if="(sonSouvenir || utilisateur.admin)">
-                <span class="stylo"></span>
-                <p>Modifier</p>
-            </div>
-            <div class="signalement" v-if="((!sonSouvenir) && (!utilisateur.admin))"
-                @click="signalement = true; action = false">
-                <span class="drapeau"></span>
-                <p>Signaler </p>
-            </div> -->
         </div>
 
         <!-- <PopupConfirmation v-if="signalement" v-on:fermer="signalement = false" v-on:signaler="getPost"
@@ -77,7 +53,7 @@
         <SupprimerSouvenir :idSouvenir="souvenir.parent.idPost" v-on:fermer="supprimer = false" v-on:reload="getPost"
             v-if="supprimer" /> -->
         <AjoutCommentaire :souvenir="souvenir" :lAuteur="getAuteur()" :utilisateur="userCo" v-if="commenter"
-        @fermerajoutcom="commenter = false; fermetureCom();" />
+            @fermerajoutcom="commenter = false; fermetureCom();" />
     </div>
 </template>
 
@@ -130,9 +106,10 @@ let auteurs = reactive({
     ]
 });
 
-//Popup
+//Ref
 const zoomImage = ref(false);
 const commenter = ref(false);
+const sonSouvenir = ref(false);
 
 const instance = getCurrentInstance();
 const props = defineProps({
@@ -230,6 +207,11 @@ function loadSouvenir(idSouvenir) {
     axios.get(param.host + '/api/post/getPostInfo.php?idPost=' + idSouvenir).then((rep) => {
         auteurs.listAuteurs = rep.data.auteurs;
         souvenir = rep.data.souvenirs[0];
+        if (getAuteur().idUser == userCo.value.idUser) {
+            sonSouvenir.value = true;
+        } else {
+            sonSouvenir.value = false;
+        }
         instance?.proxy?.$forceUpdate();
     });
 }
@@ -292,16 +274,6 @@ function clearSouvenir() {
 }
 
 /*Elements graphiques*/
-.modif {
-    background: url(../assets/elements-graphiques/modifierPosts.png) no-repeat;
-    background-size: contain;
-    background-position: center;
-    display: block;
-    width: 3.8rem;
-    height: 3.8rem;
-    cursor: pointer;
-}
-
 .fermer {
     background: url(../assets/elements-graphiques/fermer.svg) no-repeat;
     background-size: contain;
@@ -587,65 +559,13 @@ iframe {
     margin-right: 0.7rem;
 }
 
-.drapeau {
-    background: url(../assets/elements-graphiques/drapeau.svg) no-repeat;
-    background-size: contain;
-    background-position: center;
-    width: 1.6rem;
-    height: 2rem;
-    display: block;
-    margin-right: 0.7rem;
-}
-
-.signalement p {
-    color: #FE4154;
-}
-
-.popupInteractions>div {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.suppression,
-.modification {
-    width: 80%;
-}
-
 .suppression {
-    margin-bottom: 1.8rem;
-}
-
-.signalement {
-    width: auto;
+    cursor: pointer;
+    margin-left: 10rem;
 }
 
 .suppression p {
     color: #FE4154;
-}
-
-.popupInteractions p {
-    margin: 0;
-}
-
-.popupInteractions {
-    width: 15rem;
-    height: 11rem;
-    border-radius: 2rem;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 7.5%;
-    left: 60.5%;
-    background-color: #EEEDEC;
-    z-index: 1;
-}
-
-.popupSignaler {
-    height: 4.3rem;
 }
 
 /* SOUVENIR A VIRER APRES */
