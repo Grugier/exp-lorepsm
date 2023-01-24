@@ -6,16 +6,49 @@
     </a-assets>
     <a-entity id="stgic-entity"></a-entity>
 
-    <!-- ENVIRONNEMENT DE TEST EN ATTENDANT LE BATIMENT -->
+    <!-- COLLISIONS -->
 
-    <!-- Plafond -->
-    <a-plane static-body position="-0.62674 6.967 -4.46685" rotation="90 0 0" width="35.99" height="36.95"
-      color="#ffffff" material="shader: flat;"></a-plane>
+    <!-- Sol RDC -->
+    <a-box static-body
+           position="-1.5 -.55 0" rotation="-90 0 0"
+           width="14" height="22" material="opacity: 0"></a-box>
 
-    <!-- Sol -->
-    <a-plane static-body position="-0.62674 -0.1 -4.46685" rotation="-90 0 0" width="35.99" height="36.95"
-      color="#999999" shadow></a-plane>
+    <!-- Pente 1, 1er palier -->
+    <a-box static-body position="-6.1 0.358 0.5" rotation="-60 0 0"
+           width="2.3" height="2.96" material="opacity: 0"></a-box>
 
+    <!-- Sol 1er palier -->
+    <a-box static-body position="-6.9 1.03 -1.8" rotation="-90 0 0"
+           width="4.5" height="2.55" material="opacity: 0"></a-box>
+
+    <!-- Pente 2, 1er étage -->
+    <a-box static-body position="-8 2. 0.7" rotation="-60 180 0"
+           width="1.7" height="3.52" material="opacity: 0"></a-box>
+
+    <!-- Sol 1er étage -->
+    <a-box static-body position="-6.46 3 3" rotation="-90 0 0"
+           depth=".5" width="5" height="2" material="opacity: 0"></a-box>
+
+    <!-- Pente 3, 2e palier -->
+    <a-box static-body position="-5.8 3.84 0.86" rotation="-60 0 0"
+           depth=".5" width="2" height="3.25" material="opacity: 0"></a-box>
+
+    <!-- Sol 2e palier -->
+    <a-box static-body position="-6.9 4.66 -1.4" rotation="-90 0 0"
+           depth=".5" width="5" height="2" material="opacity: 0"></a-box>
+
+    <!-- Pente 4, 2e étage -->
+    <a-box static-body position="-7.8 5.68 0.66" rotation="-59.4 180 0"
+           depth=".5" width="1.9" height="3.4" material="opacity: 0"></a-box>
+
+    <!-- Sol 2e étage escaliers -->
+    <a-box static-body position="-6.321 6.4 3" rotation="-90 0 0"
+           depth=".5" width="5.63" height="2.5" material="opacity: 0"></a-box>
+
+    <!-- Sol 2e étage -->
+    <a-box static-body
+           position="13.45 6.2 -9.23" rotation="-90 0 0"
+           depth="1" width="34.7" height="33.4" material="opacity: 0"></a-box>
     <!-- Murs -->
     <!--        <a-box static-body position="16.61 3.5 -4.57041" geometry="height: 8; width: 37.27" rotation="0 90 0"></a-box>-->
     <!--        <a-box static-body position="-17.857 3.5 -4.35469" geometry="height: 8; width: 37.19" rotation="0 90 0"></a-box>-->
@@ -35,8 +68,8 @@
     <!-- FIN ENVIRONNEMENT DE TEST -->
 
     <!-- Caméra -->
-    <a-entity id="joueur" kinema-body="radius: 0.4;" movement-controls="fly: false; enabled:true;"
-      position="-3.357 -0.1 7.255">
+    <a-entity id="joueur" kinematic-body="mass: 5; radius: 0.4;" movement-controls="speed: 0.2; fly: false; enabled:true;"
+      position="-3.357 0 7.255">
       <a-entity camera position="0 1.6 0" look-controls="enabled:true;" id="camera"></a-entity>
     </a-entity>
 
