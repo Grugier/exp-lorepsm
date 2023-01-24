@@ -195,6 +195,10 @@
              position="3.911 7.9 -7.375" rotation="0 90 0"
              depth=".46" width="14.52" height="2.6" material="opacity: 0"></a-box>
 
+      <a-box static-body
+             position="4.376 7.9 2.6" rotation="0 90 0"
+             depth="1" width="2.69" height="2.6" material="opacity: 0"></a-box>
+
       <!-- Mur Makerspace 1 -->
       <a-box static-body
              position="7.94 7.9 1.776" rotation="0 0 0"
@@ -285,7 +289,7 @@
 
     <!-- Caméra -->
     <a-entity id="joueur" kinematic-body="mass: 5; radius: 0.4;" movement-controls="speed: 0.2; fly: false; enabled:true;"
-      position="-3.357 0 7.255" rotation="0 -90 0">
+      position="-3.357 0 7.255">
       <a-entity camera position="0 1.6 0" look-controls="enabled:true;" id="camera"></a-entity>
     </a-entity>
 
