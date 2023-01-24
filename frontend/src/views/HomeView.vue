@@ -113,7 +113,7 @@
 
 .ufrstgi {
   display: block;
-  background: url(../assets/landing-page/logos/stgi-logo.jpg) no-repeat;
+  background: url(../assets/landing-page/logos/stgi-logo.png) no-repeat;
   background-size: contain;
   text-indent: 100%;
   white-space: nowrap;
