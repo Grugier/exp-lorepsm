@@ -321,7 +321,7 @@ function supprimerDocument() {
 
 function clickSouvenir() {
   console.log('Souvenir cliqué !');
-  souvenir.idClicked = this.getAttribute('id');
+  souvenir.idClicked = parseInt(this.getAttribute('id'));
   souvenir.open = true;
   disableMovements();
 }
