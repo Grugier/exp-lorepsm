@@ -10,7 +10,8 @@
                         <img :src="(getAuteur().photoProfil !== null) ? param.URL_userPictures + getAuteur().photoProfil : '/user-invite.png'"
                             :alt="getAuteur().nom">
                         <p class="nom">{{ getAuteur().prenom }} {{ getAuteur().nom }}</p>
-                        <div class="suppression" v-if="(userCo.idUser != 0 && sonSouvenir)" @click="supprimer = true;">
+                        <div class="suppression" v-if="(userCo.idUser != 0 && sonSouvenir)"
+                            @click="supprimerSouvenir()">
                             <span class="poubelle"></span>
                         </div>
                     </div>
@@ -39,21 +40,14 @@
                 </div>
                 <div class="listeCommentaire">
                     <Commentaire v-for="commentaire in souvenir.lesCommentaires" :commentaire="commentaire"
-                        :lAuteur="getAuteurCom(commentaire)" :utilisateur="userCo" />
+                        :lAuteur="getAuteurCom(commentaire)" :utilisateur="userCo" @refreshsouvenir="refreshSouvenir();" />
                 </div>
                 <button v-show="userCo.idUser != 0" @click="commenter = true">Commenter...</button>
             </div>
         </div>
 
-        <!-- <PopupConfirmation v-if="signalement" v-on:fermer="signalement = false" v-on:signaler="getPost"
-            :Type="TypeMessage" :idUtilisateur="utilisateur.id" :idPost="souvenir.parent.idPost"
-            :dejaSignale="dejaSignale" />
-        <ModifierSouvenir :idSouvenir="souvenir.parent.idPost" v-on:fermer="modifier = false" v-on:reload="getPost"
-            v-if="modifier" />
-        <SupprimerSouvenir :idSouvenir="souvenir.parent.idPost" v-on:fermer="supprimer = false" v-on:reload="getPost"
-            v-if="supprimer" /> -->
         <AjoutCommentaire :souvenir="souvenir" :lAuteur="getAuteur()" :utilisateur="userCo" v-if="commenter"
-            @fermerajoutcom="commenter = false; fermetureCom();" />
+            @fermerajoutcom="commenter = false; refreshSouvenir();" />
     </div>
 </template>
 
@@ -115,7 +109,7 @@ const instance = getCurrentInstance();
 const props = defineProps({
     idSouvenir: Number
 });
-
+const emit = defineEmits(['fermersouvenir', 'refresh']);
 //Computed pour avoir les infos de l'auteur d'un souvenir
 function getAuteur() {
     return auteurs.listAuteurs.find((a) => a.idUser == souvenir.lAuteur)
@@ -187,8 +181,8 @@ function getLienVideo(url) {
     }
 }
 
-//Quand on viens d'ajouter un commentaire -> refresh le composant pour le voir
-function fermetureCom() {
+//Quand on viens d'ajouter ou supprimer un commentaire -> refresh le composant
+function refreshSouvenir() {
     clearSouvenir();
     loadSouvenir(props.idSouvenir);
 }
@@ -250,6 +244,25 @@ function clearSouvenir() {
             idUser: "", typeUser: "", prenom: "", nom: "", photoProfil: null, promo: "", lesSouvenirs: [], lesCommentaires: [], lesLike: []
         }
     ];
+}
+
+function supprimerSouvenir() {
+    const params = new FormData();
+    params.append('idPost', props.idSouvenir);
+    params.append('idUser', userCo.value.idUser);
+
+    //DEBUG
+    for (const pair of params.entries()) {
+        console.log(`${pair[0]}, ${pair[1]}`);
+    }
+
+    if (confirm('Voulez vous vraiment supprimer ce souvenir ?')) {
+        axios.post(param.host + '/api/post/deletePost.php', params).then((promise) => {
+            console.log('Delete : ' + promise);
+            emit('fermersouvenir');
+            emit('refresh');
+        }).catch(error => console.log(error));
+    }
 }
 
 </script>

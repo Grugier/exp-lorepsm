@@ -6,7 +6,7 @@
                     <img :src="(props.lAuteur.photoProfil !== null) ? param.URL_userPictures + props.lAuteur.photoProfil : '/user-invite.png'"
                         :alt="props.lAuteur.nom">
                     <p class="nom">{{ props.lAuteur.prenom }} {{ props.lAuteur.nom }}</p>
-                    <div class="suppression" v-if="(props.utilisateur.idUser != 0 && getProprieteCom())" @click="supprimer = true;">
+                    <div class="suppression" v-if="(props.utilisateur.idUser != 0 && getProprieteCom())" @click="supprimerCom();">
                         <span class="poubelle"></span>
                     </div>
                 </div>
@@ -51,6 +51,7 @@
 <script setup>
 import param from "@/param/param";
 import { ref } from 'vue'
+import axios from 'axios'
 
 const sonCom = ref(false);
 
@@ -59,6 +60,8 @@ const props = defineProps({
     lAuteur: Object,
     utilisateur: Object
 });
+
+const emit = defineEmits(['refreshsouvenir']);
 
 //Fonction pour formater la date
 function getDate(d) {
@@ -115,6 +118,24 @@ function getProprieteCom() {
     } else {
         sonCom.value = false;
         return false
+    }
+}
+
+function supprimerCom() {
+    const params = new FormData();
+    params.append('idPost', props.commentaire.idPost);
+    params.append('idUser', props.utilisateur.idUser);
+
+    //DEBUG
+    for (const pair of params.entries()) {
+        console.log(`${pair[0]}, ${pair[1]}`);
+    }
+
+    if (confirm('Voulez vous vraiment supprimer ce commentaire ?')) {
+        axios.post(param.host + '/api/post/deletePost.php', params).then((promise) => {
+            console.log('Delete : ' + promise);
+            emit('refreshsouvenir');
+        }).catch(error => console.log(error));
     }
 }
 </script>
