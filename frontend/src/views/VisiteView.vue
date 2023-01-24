@@ -276,7 +276,7 @@
 
       </a-entity>
     </a-entity>
-    
+
     <a-entity light="type: ambient; intensity: 0.35;"></a-entity>
     <a-entity light="type: ambient; intensity: 0.35;"></a-entity>
     <a-entity light="type: directional;
@@ -285,8 +285,7 @@
 
     <!-- Caméra -->
     <a-entity id="joueur" kinematic-body="mass: 5; radius: 0.4;" movement-controls="speed: 0.2; fly: false; enabled:true;"
-      position="-5.295 7.2 2.432" rotation="0 -90 0">
-<!--      -3.357 0 7.255-->
+      position="-3.357 0 7.255" rotation="0 -90 0">
       <a-entity camera position="0 1.6 0" look-controls="enabled:true;" id="camera"></a-entity>
     </a-entity>
 
