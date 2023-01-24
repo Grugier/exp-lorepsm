@@ -1,7 +1,6 @@
 <template>
   <div class="bg">
     <div class="add-reponse">
-      <!-- <form @submit="ajoutCommentaire"> -->
         <span class="fermer" @click="$emit('fermerajoutcom')"></span>
         <div class="entete-souvenir">
           <img
@@ -16,9 +15,7 @@
             :alt="props.utilisateur.nom">
           <textarea v-model="reponse" rows="8" cols="80" placeholder="Tapez votre réponse..." required></textarea>
         </div>
-        <!-- <button type="submit">Publier</button> -->
         <button @click="ajoutCommentaire()">Publier</button>
-      <!-- </form> -->
     </div>
   </div>
 </template>

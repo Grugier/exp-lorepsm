@@ -96,14 +96,4 @@ button:first-of-type {
         padding: 1.6rem 2rem;
     }
 }
-
-@media only screen and (min-width: 62em) {
-
-    /*Ordinateur*/
-    /*Animations*/
-    /* .connexion {
-        animation: entreeSlideHaut 1s;
-    } */
-}
-
 </style>

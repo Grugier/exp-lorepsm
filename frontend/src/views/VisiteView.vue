@@ -65,23 +65,14 @@
                              castShadow: true;
                              intensity: 0.25;" position="-5 3 1.5"></a-entity>
 
-    <!-- FIN ENVIRONNEMENT DE TEST -->
-
     <!-- Caméra -->
     <a-entity id="joueur" kinematic-body="mass: 5; radius: 0.4;" movement-controls="speed: 0.2; fly: false; enabled:true;"
       position="-3.357 0 7.255">
       <a-entity camera position="0 1.6 0" look-controls="enabled:true;" id="camera"></a-entity>
     </a-entity>
 
-    <!-- Souvenir statique de test -->
-    <!-- <a-entity souvenir id="sphere" geometry="primitive: sphere; radius: 0.25"
-                material="color: #99BF1C; shader: flat"
-                position="7 2 0"
-                light="type: point; intensity: 0.075"
-                class="clickable"
-              ></a-entity> -->
   </a-scene>
-  <!-- <button @click="checkConnecte" class="addSouvenirBouton" v-if="placerSouvenir == false">+</button>-->
+
   <button class="addSouvenirBouton" v-if="placerSouvenir == false && userCo.idUser != 0"
     @click="placerSouvenir = true; addPlacementSphere();">+</button>
 
@@ -213,12 +204,7 @@ function ajoutSouvenir() {
         params.append('docSvn', videoData.value);
       }
 
-      //DEBUG
-      for (const pair of params.entries()) {
-        console.log(`${pair[0]}, ${pair[1]}`);
-      }
       axios.post(param.host + '/api/post/createPost.php', params).then((promise) => {
-        console.log(promise);
         addSouvenirPopup.value = false;
         resetInfos();
         refreshScene();
@@ -353,7 +339,6 @@ function supprimerDocument() {
 }
 
 function clickSouvenir() {
-  console.log('Souvenir cliqué !');
   souvenir.idClicked = parseInt(this.getAttribute('id'));
   souvenir.open = true;
   disableMovements();
@@ -507,11 +492,6 @@ textarea {
 iframe {
   width: 15rem;
   height: 10rem;
-  margin-top: 1.5rem;
-  margin-left: 7.8rem;
-}
-
-.lecteurAudio {
   margin-top: 1.5rem;
   margin-left: 7.8rem;
 }

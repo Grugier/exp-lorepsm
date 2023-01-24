@@ -81,10 +81,6 @@ export default {
     margin-bottom: 3rem;
 }
 
-.infosUtilisateur h2 {
-    margin: 0;
-}
-
 a {
     font-size: 2.4rem;
 }
@@ -106,12 +102,6 @@ h2 {
     height: 15.3rem;
     margin-right: 5rem;
     border-radius: 20rem;
-}
-
-.listeSouvenirs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 h4 {

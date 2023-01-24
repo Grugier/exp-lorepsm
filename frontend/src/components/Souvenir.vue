@@ -251,17 +251,11 @@ function supprimerSouvenir() {
     params.append('idPost', props.idSouvenir);
     params.append('idUser', userCo.value.idUser);
 
-    //DEBUG
-    for (const pair of params.entries()) {
-        console.log(`${pair[0]}, ${pair[1]}`);
-    }
-
     if (confirm('Voulez vous vraiment supprimer ce souvenir ?')) {
         axios.post(param.host + '/api/post/deletePost.php', params).then((promise) => {
-            console.log('Delete : ' + promise);
             emit('fermersouvenir');
             emit('refresh');
-        }).catch(error => console.log(error));
+        });
     }
 }
 
@@ -323,17 +317,6 @@ function supprimerSouvenir() {
     height: 1.7rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
-}
-
-.icone-commentaire {
-    background: url(../assets/elements-graphiques/commenter.svg) no-repeat;
-    background-size: contain;
-    background-position: center;
-    display: block;
-    width: 2.1rem;
-    height: 2rem;
-    margin-left: 90%;
-    cursor: pointer;
 }
 
 button {
@@ -416,10 +399,6 @@ button {
     cursor: pointer;
 }
 
-audio {
-    margin-bottom: 1rem;
-}
-
 iframe {
     width: 25rem;
     height: 15rem;
@@ -481,86 +460,7 @@ iframe {
     font-size: 1.5rem;
 }
 
-/*ADD SAOUVENIR*/
-/* .fleche>span {
-    width: max-content;
-    background: linear-gradient(#E59845, #E59845);
-    background-size: auto .5em;
-    background-position: bottom;
-    background-repeat: no-repeat;
-  }
-
-  .fleche:after {
-    display: inline-block;
-    content: "";
-    width: 3rem;
-    height: 1.3rem;
-    background: url(../assets/elements-graphiques/fleche.svg) no-repeat;
-    margin-left: 0.4rem;
-  }
-
-  .add-souvenir {
-    background-color: #EEEDEC;
-    width: 65rem;
-    height: 38.5rem;
-    border-radius: 2rem;
-    position: absolute;
-    top: 20%;
-    left: 3%;
-    padding-left: 5rem;
-    padding-right: 5rem;
-  }
-
-  .add-souvenir img {
-    width: 4.5rem;
-    height: 4.5rem;
-    margin-right: 3rem;
-  }
-
-  .fermer {
-    background: url(../assets/elements-graphiques/fermer.svg) no-repeat;
-    background-size: contain;
-    background-position: center;
-    display: block;
-    width: 1.4rem;
-    height: 1.4rem;
-  }
-
-  .add-souvenir p:first-of-type {
-    color: #756464;
-  }
-
-  .haut {
-    display: flex;
-    align-items: flex-start;
-    margin-top: 3rem;
-  }
-
-  textarea {
-    width: 39rem;
-  }
-
-  .bas {
-    display: flex;
-    align-items: center;
-    margin-top: 7rem;
-  }
-
-  .fermer {
-    margin-top: 2rem;
-    margin-left: 99%;
-  } */
-
 /*Popup d'interactions*/
-.stylo {
-    background: url(../assets/elements-graphiques/stylo.svg) no-repeat;
-    background-size: contain;
-    background-position: center;
-    width: 1.7rem;
-    height: 1.7rem;
-    display: block;
-    margin-right: 0.7rem;
-}
 
 .poubelle {
     background: url(../assets/elements-graphiques/poubelle.svg) no-repeat;
@@ -581,36 +481,8 @@ iframe {
     color: #FE4154;
 }
 
-/* SOUVENIR A VIRER APRES */
-.bulleSouvenir {
-    height: 3.5rem;
-    width: 3.5rem;
-    background-color: #E59845;
-    border-radius: 50%;
-    display: inline-block;
-    cursor: pointer;
-
-    position: absolute;
-    top: 50%;
-    left: 35%;
-}
-
 /* Smartphone */
 @media only screen and (max-width: 480px) {
-    .popupInteractions {
-        width: 70%;
-        top: 8rem;
-        left: .6rem;
-    }
-
-    .popupInteractions>div {
-        width: auto;
-    }
-
-    .contenu {
-        margin-top: 1rem;
-    }
-
     .bloc-souvenir {
         margin-top: 8rem;
     }

@@ -25,26 +25,6 @@
                 </div>
             </div>
         </div>
-        <!-- 
-        <div class="popupInteractions2" v-if="action" v-bind:class="{popupSignaler : !sonCom}">
-            <div class="suppression" v-if="(sonCom || utilisateur.admin)" @click="supprimer = true; action=false">
-                <span class="poubelle"></span>
-                <p>Supprimer</p>
-            </div>
-            <div class="modification" @click="modifier = true; action = false" v-if="sonCom">
-                <span class="stylo"></span>
-                <p>Modifier</p>
-            </div>
-            <div class="signalement" v-if="((!sonCom) &&(!utilisateur.admin))" @click="$emit('signaler');action=false">
-                <span class="drapeau"></span>
-                <p>Signaler </p>
-            </div>
-        </div> -->
-
-        <!-- <ModifierCommentaire :commentaire="$props.commentaire" :idUtilisateur="utilisateur.id" v-if="modifier"
-            v-on:fermer="modifier = false" v-on:rechargement="$emit('rechargement')" />
-        <SupprimerCommentaire :commentaire="$props.commentaire" v-if="supprimer" v-on:fermer="supprimer = false"
-            v-on:rechargement="$emit('rechargement')" /> -->
     </section>
 </template>
 
@@ -126,16 +106,10 @@ function supprimerCom() {
     params.append('idPost', props.commentaire.idPost);
     params.append('idUser', props.utilisateur.idUser);
 
-    //DEBUG
-    for (const pair of params.entries()) {
-        console.log(`${pair[0]}, ${pair[1]}`);
-    }
-
     if (confirm('Voulez vous vraiment supprimer ce commentaire ?')) {
         axios.post(param.host + '/api/post/deletePost.php', params).then((promise) => {
-            console.log('Delete : ' + promise);
             emit('refreshsouvenir');
-        }).catch(error => console.log(error));
+        });
     }
 }
 </script>
@@ -158,10 +132,6 @@ function supprimerCom() {
 
 .aime {
     background: url(../assets/elements-graphiques/aime.svg) no-repeat;
-}
-
-.aimeFull {
-    background: url(../assets/elements-graphiques/aime-full.svg) no-repeat;
 }
 
 .coeur {
@@ -258,49 +228,4 @@ function supprimerCom() {
     z-index: 2;
 }
 
-.popupConfirmation {
-    position: relative;
-    top: 30%;
-    left: 33%;
-    width: 65rem;
-    height: 14rem;
-    background-color: #EEEDEC;
-    border-radius: 2rem;
-    z-index: 3;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
-.popupConfirmation>div {
-    width: 70%;
-    display: flex;
-    justify-content: space-between;
-
-}
-
-.popupConfirmation p {
-    font-size: 2rem;
-    font-family: 'Public-Sans-Bold';
-    margin: 0;
-}
-
-.popupConfirmation button {
-    font-size: 1.8rem;
-    padding: 1rem 2rem;
-    width: 12rem;
-    cursor: pointer;
-}
-
-.confirmer {
-    background-color: #FE4154;
-    color: #EEEDEC;
-}
-
-.annuler {
-    background-color: #E8D3BF;
-    color: black;
-}
 </style>
