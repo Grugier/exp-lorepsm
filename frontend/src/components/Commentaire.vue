@@ -6,7 +6,7 @@
                     <img :src="(props.lAuteur.photoProfil !== null) ? param.URL_userPictures + props.lAuteur.photoProfil : '/user-invite.png'"
                         :alt="props.lAuteur.nom">
                     <p class="nom">{{ props.lAuteur.prenom }} {{ props.lAuteur.nom }}</p>
-                    <div class="suppression" v-if="(props.utilisateur.idUser != 0 && sonCom)" @click="supprimer = true;">
+                    <div class="suppression" v-if="(props.utilisateur.idUser != 0 && getProprieteCom())" @click="supprimer = true;">
                         <span class="poubelle"></span>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
 
 <script setup>
 import param from "@/param/param";
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
 const sonCom = ref(false);
 
@@ -108,16 +108,15 @@ function getDate(d) {
     return date.getDate() + " " + mois + " " + date.getFullYear();
 }
 
-onMounted(() => {
-    console.log("Mounted commentaire")
-    console.log(props.lAuteur);
+function getProprieteCom() {
     if (props.lAuteur.idUser == props.utilisateur.idUser) {
-        console.log('son com');
         sonCom.value = true;
+        return true
     } else {
         sonCom.value = false;
+        return false
     }
-});
+}
 </script>
 
 <style scoped>
