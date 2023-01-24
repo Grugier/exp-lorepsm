@@ -11,7 +11,7 @@ require "../../classes/class.LoreUtils.php";
 
 $dossierDocuments = "../../documentsUGC/souvenirs/";
 
-if (isset($_POST['idPost']) && isset($_POST['idAuteur'])) {
+if (isset($_POST['idPost']) && isset($_POST['idUser'])) {
 
     // On récupère certaines informations sur le post
     $sql = "SELECT * FROM post WHERE ID_POST = ?";
@@ -26,7 +26,7 @@ if (isset($_POST['idPost']) && isset($_POST['idAuteur'])) {
             $lePost = $donnees;
 
             // Bon auteur
-            if($_POST['idAuteur'] == $donnees["ID_USER"]) {
+            if($_POST['idUser'] == $donnees["ID_USER"]) {
                 $idPostASuppr = $lePost['ID_POST'];
 
                 // Si c'est un souvenir ou un événement
