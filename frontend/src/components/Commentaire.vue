@@ -1,24 +1,25 @@
 <template>
     <section class="com">
         <div class="commentaire">
-            <!-- <span class="modif" @click="interactions" v-if="utilisateur.id !=73 && utilisateur.id !=0"></span> -->
             <div class="leCom">
                 <div class="entete-com">
-                    <!-- <img :src="props.lAuteur.photoProfil" :alt="props.commentaire.lAuteur.nom"> -->
                     <img :src="(props.lAuteur.photoProfil !== null) ? param.URL_userPictures + props.lAuteur.photoProfil : '/user-invite.png'"
                         :alt="props.lAuteur.nom">
                     <p class="nom">{{ props.lAuteur.prenom }} {{ props.lAuteur.nom }}</p>
+                    <div class="suppression" v-if="(props.utilisateur.idUser != 0 && getProprieteCom())" @click="supprimerCom();">
+                        <span class="poubelle"></span>
+                    </div>
                 </div>
                 <div class="corp-com">
                     <div class="interagir">
-                        <!-- <span class="coeur" @click="like($props.commentaire.idPost)"
-                            v-bind:class="{aimeFull:aime,aime:!aime}"></span> -->
                         <span class="coeur aime"></span>
                         <p>{{ props.commentaire.lesLike }}</p>
                     </div>
                     <div>
                         <p>{{ props.commentaire.textPost }}</p>
-                        <p v-if="props.commentaire.datePost" class="date">Publié le {{ getDate(props.commentaire.datePost) }}
+                        <p v-if="props.commentaire.datePost" class="date">Publié le {{
+                            getDate(props.commentaire.datePost)
+                        }}
                         </p>
                     </div>
                 </div>
@@ -49,11 +50,18 @@
 
 <script setup>
 import param from "@/param/param";
+import { ref } from 'vue'
+import axios from 'axios'
+
+const sonCom = ref(false);
 
 const props = defineProps({
     commentaire: Object,
-    lAuteur: Object
+    lAuteur: Object,
+    utilisateur: Object
 });
+
+const emit = defineEmits(['refreshsouvenir']);
 
 //Fonction pour formater la date
 function getDate(d) {
@@ -102,6 +110,34 @@ function getDate(d) {
 
     return date.getDate() + " " + mois + " " + date.getFullYear();
 }
+
+function getProprieteCom() {
+    if (props.lAuteur.idUser == props.utilisateur.idUser) {
+        sonCom.value = true;
+        return true
+    } else {
+        sonCom.value = false;
+        return false
+    }
+}
+
+function supprimerCom() {
+    const params = new FormData();
+    params.append('idPost', props.commentaire.idPost);
+    params.append('idUser', props.utilisateur.idUser);
+
+    //DEBUG
+    for (const pair of params.entries()) {
+        console.log(`${pair[0]}, ${pair[1]}`);
+    }
+
+    if (confirm('Voulez vous vraiment supprimer ce commentaire ?')) {
+        axios.post(param.host + '/api/post/deletePost.php', params).then((promise) => {
+            console.log('Delete : ' + promise);
+            emit('refreshsouvenir');
+        }).catch(error => console.log(error));
+    }
+}
 </script>
 
 <style scoped>
@@ -110,18 +146,6 @@ function getDate(d) {
 }
 
 /*Elements graphiques*/
-.modif {
-    background: url(../assets/elements-graphiques/modifierPosts.png) no-repeat;
-    background-size: contain;
-    background-position: center;
-    display: block;
-    width: 3.8rem;
-    height: 3.8rem;
-    cursor: pointer;
-    margin-right: 1.5rem;
-    margin-bottom: -1rem;
-}
-
 .nom {
     white-space: nowrap;
     max-width: 16rem;
@@ -207,16 +231,6 @@ function getDate(d) {
 }
 
 /*Popup d'interactions*/
-.stylo {
-    background: url(../assets/elements-graphiques/stylo.svg) no-repeat;
-    background-size: contain;
-    background-position: center;
-    width: 1.7rem;
-    height: 1.7rem;
-    display: block;
-    margin-right: 0.7rem;
-}
-
 .poubelle {
     background: url(../assets/elements-graphiques/poubelle.svg) no-repeat;
     background-size: contain;
@@ -227,66 +241,10 @@ function getDate(d) {
     margin-right: 0.7rem;
 }
 
-.drapeau {
-    background: url(../assets/elements-graphiques/drapeau.svg) no-repeat;
-    background-size: contain;
-    background-position: center;
-    width: 1.6rem;
-    height: 2rem;
-    display: block;
-    margin-right: 0.7rem;
-}
-
-.signalement p {
-    color: #FE4154;
-}
-
-.popupInteractions2>div {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    width: auto;
-}
-
-.suppression,
-.modification {
-    width: 80%;
-}
 
 .suppression {
-    margin-bottom: 1.8rem;
-}
-
-.signalement {
-    width: auto;
-}
-
-.suppression p {
-    color: #FE4154;
-}
-
-.popupInteractions2 p {
-    margin: 0;
-}
-
-.popupInteractions2 {
-    width: 35rem;
-    height: 11rem;
-    border-radius: 2rem;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 4rem;
-    left: 0;
-    background-color: #EEEDEC;
-    z-index: 1;
-}
-
-.popupSignaler {
-    height: 4.3rem;
+    cursor: pointer;
+    margin-left: 10rem;
 }
 
 /*Mise en page du popup de confirmation*/
